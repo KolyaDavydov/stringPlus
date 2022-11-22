@@ -35,12 +35,24 @@
 *.i*86
 *.x86_64
 *.hex
+vtests_run
+run
+gcov
+unit-test
+main
+test_telega.c
 
 # Debug files
 *.dSYM/
 *.su
 *.idb
 *.pdb
+*.gcda
+*.gcno
+RESULT_VALGRIND.txt
+main.c
+report
+report.info
 
 # Kernel Module Compile Results
 *.mod*
@@ -50,3 +62,4 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+main.c
