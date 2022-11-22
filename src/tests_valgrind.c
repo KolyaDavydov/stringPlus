@@ -20,8 +20,17 @@ void tc_s21_memcpy() {
   s21_memcpy(s21_buf3, s21_buf3 + 16, n3);
 }
 
+void tc_s21_memmove() {
+  s21_size_t n1 = 4, n2 = 32, n3 = 10;
+  char s21_buf[64] = "It's over Anakin, I have the high ground.";
+  s21_memmove(s21_buf, s21_buf + 5, n1);
+  s21_memmove(s21_buf, s21_buf + 5, n2);
+  s21_memmove(s21_buf + 5, s21_buf, n3);
+}
+
 int main(void) {
   tc_s21_memcmp();
   tc_s21_memcpy();
+  tc_s21_memmove();
   return 0;
 }
