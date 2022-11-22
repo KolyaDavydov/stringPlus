@@ -25,3 +25,27 @@ void *s21_memcpy(void *dest, const void *src, s21_size_t n) {
   for (s21_size_t i = 0; i < n; i++) to[i] = ((unsigned char *)src)[i];
   return to;
 }
+
+/**
+    4. Another function to copy n characters from src to dest.
+
+    Implemented by: Tania Kiara
+**/
+void *s21_memmove(void *dest, const void *src, s21_size_t n) {
+  unsigned char *to = dest;
+  void *result = to;
+
+  if (src != dest && n != 0) {
+    if (dest > src && dest - src < (int)n) {
+      for (int i = n - 1; i >= 0; i--) to[i] = ((unsigned char *)src)[i];
+      result = dest;
+    } else if (src > dest && src - dest < (int)n) {
+      for (s21_size_t i = 0; i < n; i++) to[i] = ((unsigned char *)src)[i];
+      result = dest;
+    } else {
+      s21_memcpy(dest, src, n);
+    }
+  }
+
+  return result;
+}

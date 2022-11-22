@@ -57,6 +57,35 @@ START_TEST(tc008_memcpy) {
 }
 END_TEST
 
+// <=== TEST CASES: s21_memmove ===>
+
+START_TEST(tc009_memmove) {
+  s21_size_t n = 4;
+  char buf[64] = "It's over Anakin, I have the high ground.";
+  char s21_buf[64] = "It's over Anakin, I have the high ground.";
+  ck_assert_pstr_eq(memmove(buf, buf + 5, n),
+                    s21_memmove(s21_buf, s21_buf + 5, n));
+}
+END_TEST
+
+START_TEST(tc010_memmove) {
+  s21_size_t n = 32;
+  char buf[64] = "It's over Anakin, I have the high ground.";
+  char s21_buf[64] = "It's over Anakin, I have the high ground.";
+  ck_assert_pstr_eq(memmove(buf, buf + 5, n),
+                    s21_memmove(s21_buf, s21_buf + 5, n));
+}
+END_TEST
+
+START_TEST(tc011_memmove) {
+  s21_size_t n = 10;
+  char buf[64] = "It's over Anakin, I have the high ground.";
+  char s21_buf[64] = "It's over Anakin, I have the high ground.";
+  ck_assert_pstr_eq(memmove(buf + 5, buf, n),
+                    s21_memmove(s21_buf + 5, s21_buf, n));
+}
+END_TEST
+
 /**
     --------------------------------------------------
             <========== TEST SUITES ==========>
@@ -86,11 +115,24 @@ Suite *ts_s21_memcpy() {
   return suite;
 }
 
+Suite *ts_s21_memmove() {
+  Suite *suite = suite_create("ts_s21_memmove");
+  TCase *test_case = tcase_create("tc_s21_memmove");
+
+  tcase_add_test(test_case, tc009_memmove);
+  tcase_add_test(test_case, tc010_memmove);
+  tcase_add_test(test_case, tc011_memmove);
+  suite_add_tcase(suite, test_case);
+
+  return suite;
+}
+
 int main(void) {
   int failed = 0;
   Suite *test_suites[] = {
       ts_s21_memcmp(),
       ts_s21_memcpy(),
+      ts_s21_memmove(),
       NULL,
   };
 
