@@ -14,3 +14,14 @@ int s21_memcmp(const void *str1, const void *str2, s21_size_t n) {
   }
   return result;
 }
+
+/**
+    3. Copies n characters from src to dest.
+
+    Implemented by: Tania Kiara
+**/
+void *s21_memcpy(void *dest, const void *src, s21_size_t n) {
+  unsigned char *to = dest;
+  for (s21_size_t i = 0; i < n; i++) to[i] = ((unsigned char *)src)[i];
+  return to;
+}
