@@ -1,6 +1,25 @@
 #include "s21_string.h"
 
 /**
+    1. Searches for the first occurrence of the character c (an unsigned char)
+    in the first n bytes of the string pointed to, by the argument str.
+    
+    Implemented by: Almeta Terry
+**/
+void *s21_memchr(const void *str, int c, s21_size_t n) {
+  unsigned char *res = s21_NULL;
+  const unsigned char *ptr = str;
+  for (int i = 0; i < (int) n; i++) {
+    if(*ptr == (unsigned char) c) {
+      res = (void *)ptr;
+    } else {
+      ptr++;
+    }
+  }
+  return res;
+}
+
+/**
     2. Compares the first n bytes of str1 and str2.
 
     Implemented by: Tania Kiara

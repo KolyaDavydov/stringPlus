@@ -10,6 +10,32 @@
     --------------------------------------------------
 **/
 
+// <=== TEST CASES: s21_memchr ===>
+
+START_TEST(tc001_memchr) {
+  s21_size_t n = 12;
+  void *str = "Hello there.";
+  char ch = 'l';
+  ck_assert_pstr_eq(memchr(str, ch, n), s21_memchr(str, ch, n));
+}
+END_TEST
+
+START_TEST(tc002_memchr) {
+  s21_size_t n = 2;
+  void *str = "Hello there.";
+  char ch = 't';
+  ck_assert_pstr_eq(memchr(str, ch, n), s21_memchr(str, ch, n));
+}
+END_TEST
+
+START_TEST(tc003_memchr) {
+  s21_size_t n = 20;
+  void *str = "Hello there.";
+  char ch = 'u';
+  ck_assert_pstr_eq(memchr(str, ch, n), s21_memchr(str, ch, n));
+}
+END_TEST
+
 // <=== TEST CASES: s21_memcmp ===>
 
 START_TEST(tc004_memcmp) {
@@ -92,6 +118,18 @@ END_TEST
     --------------------------------------------------
 **/
 
+Suite *ts_s21_memchr() {
+  Suite *suite = suite_create("ts_s21_memchr");
+  TCase *test_case = tcase_create("tc_s21_memchr");
+
+  tcase_add_test(test_case, tc001_memchr);
+  tcase_add_test(test_case, tc002_memchr);
+  tcase_add_test(test_case, tc003_memchr);
+  suite_add_tcase(suite, test_case);
+
+  return suite;
+}
+
 Suite *ts_s21_memcmp() {
   Suite *suite = suite_create("ts_s21_memcmp");
   TCase *test_case = tcase_create("tc_s21_memcmp");
@@ -130,6 +168,7 @@ Suite *ts_s21_memmove() {
 int main(void) {
   int failed = 0;
   Suite *test_suites[] = {
+      ts_s21_memchr(),
       ts_s21_memcmp(),
       ts_s21_memcpy(),
       ts_s21_memmove(),
