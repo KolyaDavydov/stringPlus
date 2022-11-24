@@ -175,7 +175,7 @@ Suite *ts_s21_strncat() {
   tcase_add_test(test_case, tc025_strncat);
   suite_add_tcase(suite, test_case);
 
-  r
+  return suite;
 
 int main(void) {
   int failed = 0;
