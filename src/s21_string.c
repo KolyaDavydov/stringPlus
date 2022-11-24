@@ -49,3 +49,17 @@ void *s21_memmove(void *dest, const void *src, s21_size_t n) {
 
   return result;
 }
+
+/**
+    7. Appends the string pointed to, by src to the end of the string pointed
+    to, by dest up to n characters long.
+
+    Implemented by: Almeta Terry
+**/
+
+char *s21_strncat(char *dest, const char *src, s21_size_t n) {
+ char *tmp = dest;
+  while (*dest != '\0') dest++;
+  while (n-- > 0) *dest++ = *src++;
+  return tmp;
+}
