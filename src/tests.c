@@ -86,6 +86,26 @@ START_TEST(tc011_memmove) {
 }
 END_TEST
 
+// <=== TEST CASES: s21_strlen ===>
+
+START_TEST(tc048_strlen) {
+  char str[100] = ""; 
+  ck_assert_int_eq(strlen(str), s21_strlen(str));
+}
+END_TEST
+
+START_TEST(tc049_strlen) {
+  char str[100] = "Hello world!"; 
+  ck_assert_int_eq(strlen(str), s21_strlen(str));
+}
+END_TEST
+
+START_TEST(tc050_strlen) {
+  char str[100] = "Hello \0\t\nworld!"; 
+  ck_assert_int_eq(strlen(str), s21_strlen(str));
+}
+END_TEST
+
 /**
     --------------------------------------------------
             <========== TEST SUITES ==========>
@@ -127,12 +147,25 @@ Suite *ts_s21_memmove() {
   return suite;
 }
 
+Suite *ts_s21_strlen() {
+  Suite *suite = suite_create("ts_s21_memmove");
+  TCase *test_case = tcase_create("tc_s21_memmove");
+
+  tcase_add_test(test_case, tc048_strlen);
+  tcase_add_test(test_case, tc049_strlen);
+  tcase_add_test(test_case, tc050_strlen);
+  suite_add_tcase(suite, test_case);
+
+  return suite;
+}
+
 int main(void) {
   int failed = 0;
   Suite *test_suites[] = {
       ts_s21_memcmp(),
       ts_s21_memcpy(),
       ts_s21_memmove(),
+      ts_s21_strlen(),
       NULL,
   };
 

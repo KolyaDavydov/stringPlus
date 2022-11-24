@@ -49,3 +49,20 @@ void *s21_memmove(void *dest, const void *src, s21_size_t n) {
 
   return result;
 }
+
+/**
+    15. Computes the length of the string str up to but not including the
+    terminating null character.
+
+    Implementes by: Almeta Terry
+**/
+s21_size_t s21_strlen(const char *str) {
+  s21_size_t length = 0;
+  if(str != s21_NULL) {
+    while(*str != 0) {
+      length++;
+      str++;
+    }
+  }
+  return length;
+}
