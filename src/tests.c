@@ -183,6 +183,7 @@ int main(void) {
       ts_s21_memcmp(),
       ts_s21_memcpy(),
       ts_s21_memmove(),
+      ts_s21_strncat().
       NULL,
   };
 
