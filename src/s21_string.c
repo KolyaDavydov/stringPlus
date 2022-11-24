@@ -58,11 +58,7 @@ void *s21_memmove(void *dest, const void *src, s21_size_t n) {
 **/
 s21_size_t s21_strlen(const char *str) {
   s21_size_t length = 0;
-  if(str != s21_NULL) {
-    while(*str != 0) {
-      length++;
-      str++;
-    }
-  }
+  while(*(str++) != 0)
+    length++;
   return length;
 }
