@@ -49,3 +49,23 @@ void *s21_memmove(void *dest, const void *src, s21_size_t n) {
 
   return result;
 }
+
+/**
+    8. Searches for the first occurrence of the character c (an unsigned char)
+    in the string pointed to, by the argument str.
+
+    Implemented by: Almeta Terry
+**/
+
+char *s21_strchr(const char *str, int c) {
+  char *ptr = s21_NULL;
+  while(1) {
+    if (*str ==(char) c) {
+      ptr = (char *)str;
+      break;
+    }
+    if (*str == '\0') break;
+    str++;
+  }
+  return ptr;
+}
