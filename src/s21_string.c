@@ -51,20 +51,15 @@ void *s21_memmove(void *dest, const void *src, s21_size_t n) {
 }
 
 /**
-    12. Copies up to n characters from the string pointed to, by src to dest.
+    11. Copies the string pointed to, by src to dest.
 
     Implementes by: Almeta Terry
 **/
-char *s21_strncpy(char *dest, const char *src, s21_size_t n) {
+char *s21_strcpy(char *dest, const char *src) {
   char *tmp = dest;
-  s21_size_t tmp_n = 0;
-  while(tmp_n < n) {
-    if (*src != '\0') {
-      *dest++ = *src++;
-    } else {
-      *dest++ = '\0';
-    }
-    tmp_n++;
+  while(*src != '\0') {
+    *dest++ = *src++;
   }
+  *dest = '\0';
   return tmp;
 }
