@@ -49,3 +49,19 @@ void *s21_memmove(void *dest, const void *src, s21_size_t n) {
 
   return result;
 }
+
+/**
+    9. Compares the string pointed to, by str1 to the string pointed to by str2.
+
+    Implemented by: Almeta Terry
+**/
+
+int s21_strcmp(const char *str1, const char *str2) {
+  while(*str1) {
+    if (*str1++ == *str2++) {
+    } else {
+      break;
+    }
+  }
+  return *str1 - *str2;
+}
