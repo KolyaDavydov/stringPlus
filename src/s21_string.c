@@ -49,3 +49,15 @@ void *s21_memmove(void *dest, const void *src, s21_size_t n) {
 
   return result;
 }
+
+/**
+    13. Calculates the length of the initial segment of str1 which consists
+    entirely of characters not in str2.
+
+    Implementes by: Almeta Terry
+**/
+s21_size_t s21_strcspn(const char *str1, const char *str2) {
+  s21_size_t counter = 0;
+  while(*str1 != '\0' && !s21_strchr(str2, *str1++)) counter++;
+  return counter;
+}
