@@ -1,6 +1,25 @@
 #include "s21_string.h"
 
 /**
+    1. Searches for the first occurrence of the character c (an unsigned char)
+    in the first n bytes of the string pointed to, by the argument str.
+    
+    Implemented by: Almeta Terry
+**/
+void *s21_memchr(const void *str, int c, s21_size_t n) {
+  unsigned char *res = s21_NULL;
+  const unsigned char *ptr = str;
+  for (int i = 0; i < (int) n; i++) {
+    if(*ptr == (unsigned char) c) {
+      res = (void *)ptr;
+    } else {
+      ptr++;
+    }
+  }
+  return res;
+}
+
+/**
     2. Compares the first n bytes of str1 and str2.
 
     Implemented by: Tania Kiara
@@ -48,6 +67,20 @@ void *s21_memmove(void *dest, const void *src, s21_size_t n) {
   }
 
   return result;
+}
+
+/**
+    5. Copies the character c (an unsigned char) to the first n characters of
+    the string pointed to, by the argument str.
+
+    Implemented by: Almeta Terry
+**/
+void *s21_memset(void *str, int c, s21_size_t n) {
+  char *ptr = str;
+  for(s21_size_t i = 0; i < n; i++) {
+    *(ptr + i) = c;
+  }
+  return ptr;
 }
 
 /**
