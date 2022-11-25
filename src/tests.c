@@ -86,6 +86,34 @@ START_TEST(tc011_memmove) {
 }
 END_TEST
 
+// <=== TEST CASES: s21_strncmp ===>
+
+START_TEST(tc032_strncmp) {
+  s21_size_t n = 5;
+  char str1[30] = "S21_SCHOOL";
+  char str2[30] = "S21_SCHOOL";
+  ck_assert_int_eq(strncmp(str1, str2, n), s21_strncmp(str1, str2, n));
+}
+END_TEST
+
+
+START_TEST(tc033_strncmp) {
+  s21_size_t n = 5;
+  char str1[30] = "S21_SCHOOL   ";
+  char str2[30] = "S21 _SCHOOL";
+  ck_assert_int_eq(strncmp(str1, str2, n), s21_strncmp(str1, str2, n));
+}
+END_TEST
+
+
+START_TEST(tc034_strncmp) {
+  s21_size_t n = 5;
+  char str1[30] = "S21 _SCHOOL";
+  char str2[30] = "S21_SCHOOL";
+  ck_assert_int_eq(strncmp(str1, str2, n), s21_strncmp(str1, str2, n));
+}
+END_TEST
+
 /**
     --------------------------------------------------
             <========== TEST SUITES ==========>
@@ -127,12 +155,25 @@ Suite *ts_s21_memmove() {
   return suite;
 }
 
+Suite *ts_s21_strncmp() {
+  Suite *suite = suite_create("ts_s21_strncmp");
+  TCase *test_case = tcase_create("tc_s21_strncmp");
+
+  tcase_add_test(test_case, tc032_strncmp);
+  tcase_add_test(test_case, tc033_strncmp);
+  tcase_add_test(test_case, tc034_strncmp);
+  suite_add_tcase(suite, test_case);
+
+  return suite;
+}
+
 int main(void) {
   int failed = 0;
   Suite *test_suites[] = {
       ts_s21_memcmp(),
       ts_s21_memcpy(),
       ts_s21_memmove(),
+      ts_s21_strncmp(),
       NULL,
   };
 
