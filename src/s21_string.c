@@ -82,6 +82,20 @@ void *s21_memset(void *str, int c, s21_size_t n) {
 }
 
 /**
+    6. Appends the string pointed to, by src to the end of the string pointed to
+    by dest.
+
+    Implemented by: Almeta Terry
+**/
+char *s21_strcat(char *dest, const char *src) {
+  char *tmp = dest;
+  while (*dest != '\0') dest++;
+  while (*src != '\0') *dest++ = *src++;
+  *dest = '\0';
+  return tmp;
+}
+
+/**
     15. Computes the length of the string str up to but not including the
     terminating null character.
 
