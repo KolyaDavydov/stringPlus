@@ -163,10 +163,48 @@ START_TEST(tc020_strcat) {
 }
 END_TEST
 
-START_TEST(t0c21_strcat) {
+START_TEST(tc021_strcat) {
   char dest[100] = "Hello ";
   char str[100] = "";
   ck_assert_str_eq(strcat(dest, str), s21_strcat(dest, str));
+}
+END_TEST
+
+// <=== TEST CASES: s21_strncat ===>
+
+START_TEST(tc022_strncat) {
+  s21_size_t n = 2;
+  char dest[100] = "Hello ";
+  char str[100] = "world!";
+  char dest1[100] = "Hello ";
+  ck_assert_str_eq(strncat(dest, str, n), s21_strncat(dest1, str, n));
+}
+END_TEST
+
+START_TEST(tc023_strncat) {
+  s21_size_t n = 3;
+  char dest[100] = "Hello ";
+  char str[100] = "world!";
+  char dest1[100] = "Hello ";
+  ck_assert_str_eq(strncat(dest, str, n), s21_strncat(dest1, str, n));
+}
+END_TEST
+
+START_TEST(tc024_strncat) {
+  s21_size_t n = 3;
+  char dest[100] = "";
+  char str[100] = "world!";
+  char dest1[100] = "";
+  ck_assert_str_eq(strncat(dest, str, n), s21_strncat(dest1, str, n));
+}
+END_TEST
+
+START_TEST(tc025_strncat) {
+  s21_size_t n = 3;
+  char dest[100] = "";
+  char str[100] = "HELLo";
+  char dest1[100] = "";
+  ck_assert_str_eq(strncat(dest, str, n), s21_strncat(dest1, str, n));
 }
 END_TEST
 
@@ -250,7 +288,6 @@ Suite *ts_s21_memset() {
   tcase_add_test(test_case, tc015_memset);
   tcase_add_test(test_case, tc016_memset);
   tcase_add_test(test_case, tc017_memset);
-
   suite_add_tcase(suite, test_case);
 
   return suite;
@@ -263,6 +300,20 @@ Suite *ts_s21_strcat() {
   tcase_add_test(test_case, tc018_strcat);
   tcase_add_test(test_case, tc019_strcat);
   tcase_add_test(test_case, tc020_strcat);
+  tcase_add_test(test_case, tc021_strcat);
+  suite_add_tcase(suite, test_case);
+
+  return suite;
+}
+
+Suite *ts_s21_strncat() {
+  Suite *suite = suite_create("ts_s21_strncat");
+  TCase *test_case = tcase_create("tc_s21_strncat");
+
+  tcase_add_test(test_case, tc022_strncat);
+  tcase_add_test(test_case, tc023_strncat);
+  tcase_add_test(test_case, tc024_strncat);
+  tcase_add_test(test_case, tc025_strncat);
 
   suite_add_tcase(suite, test_case);
 
@@ -284,8 +335,9 @@ Suite *ts_s21_strlen() {
 int main(void) {
   int failed = 0;
   Suite *test_suites[] = {
-      ts_s21_memchr(), ts_s21_memcmp(), ts_s21_memcpy(), ts_s21_memmove(),
-      ts_s21_memset(), ts_s21_strcat(), ts_s21_strlen(), NULL,
+      ts_s21_memchr(),  ts_s21_memcmp(), ts_s21_memcpy(),
+      ts_s21_memmove(), ts_s21_memset(), ts_s21_strcat(),
+      ts_s21_strncat(), ts_s21_strlen(), NULL,
   };
 
   for (Suite **s = test_suites; *s != NULL; s++) {
