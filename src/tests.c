@@ -358,6 +358,32 @@ START_TEST(tc043_strcspn) {
 }
 END_TEST
 
+// <=== TEST CASES: s21_strerror ===>
+
+START_TEST(tc044_strerror) {
+  int err = 0;
+  ck_assert_str_eq(strerror(err), s21_strerror(err));
+}
+END_TEST
+
+START_TEST(tc045_strerror) {
+  int err = 60;
+  ck_assert_str_eq(strerror(err), s21_strerror(err));
+}
+END_TEST
+
+START_TEST(tc046_strerror) {
+  int err = 300;
+  ck_assert_str_eq(strerror(err), s21_strerror(err));
+}
+END_TEST
+
+START_TEST(tc047_strerror) {
+  int err = -1000;
+  ck_assert_str_eq(strerror(err), s21_strerror(err));
+}
+END_TEST
+
 // <=== TEST CASES: s21_strlen ===>
 
 START_TEST(tc048_strlen) {
@@ -375,6 +401,98 @@ END_TEST
 START_TEST(tc050_strlen) {
   char str[100] = "Hello \0\t\nworld!";
   ck_assert_int_eq(strlen(str), s21_strlen(str));
+}
+END_TEST
+
+// <=== TEST CASES: s21_strpbrk ===>
+
+START_TEST(tc051_strpbrk) {
+  char str1[] = "Hello world";
+  char str2[] = "W";
+  ck_assert_pstr_eq(s21_strpbrk(str1, str2), strpbrk(str1, str2));
+}
+END_TEST
+
+START_TEST(tc052_strpbrk) {
+  char str1[] = "HELLO WORLD";
+  char str2[] = "C";
+  ck_assert_pstr_eq(s21_strpbrk(str1, str2), strpbrk(str1, str2));
+}
+END_TEST
+
+START_TEST(tc053_strpbrk) {
+  char str1[] = "";
+  char str2[] = "";
+  ck_assert_pstr_eq(s21_strpbrk(str1, str2), strpbrk(str1, str2));
+}
+END_TEST
+
+// <=== TEST CASES: s21_strrchr ===>
+
+START_TEST(tc054_strrchr) {
+  char str[] = "Hello world";
+  char ch = 'o';
+  ck_assert_pstr_eq(s21_strrchr(str, ch), strrchr(str, ch));
+}
+END_TEST
+
+START_TEST(tc055_strrchr) {
+  char str[] = "Hello world";
+  char ch = '\0';
+  ck_assert_pstr_eq(s21_strrchr(str, ch), strrchr(str, ch));
+}
+END_TEST
+
+START_TEST(tc056_strrchr) {
+  char str[] = "Hello world";
+  char ch = 'W';
+  ck_assert_pstr_eq(s21_strrchr(str, ch), strrchr(str, ch));
+}
+END_TEST
+
+// <=== TEST CASES: s21_strspn ===>
+
+START_TEST(tc057_strspn) {
+  char str1[] = "";
+  char str2[] = "";
+  ck_assert_int_eq(s21_strspn(str1, str2), strspn(str1, str2));
+}
+END_TEST
+
+START_TEST(tc058_strspn) {
+  char str1[] = "Hello world!";
+  char str2[] = "";
+  ck_assert_int_eq(s21_strspn(str1, str2), strspn(str1, str2));
+}
+END_TEST
+
+START_TEST(tc059_strspn) {
+  char str1[] = "Hi";
+  char str2[] = "HiHi";
+  ck_assert_int_eq(s21_strspn(str1, str2), strspn(str1, str2));
+}
+END_TEST
+
+// <=== TEST CASES: s21_strstr ===>
+
+START_TEST(tc060_strstr) {
+  char str1[] = "HELLO world";
+  char str2[] = "world";
+  ck_assert_pstr_eq(s21_strstr(str1, str2), strstr(str1, str2));
+}
+END_TEST
+
+START_TEST(tc061_strstr) {
+  char str1[] = "Hello world";
+  char str2[] = "world ";
+  ck_assert_pstr_eq(s21_strstr(str1, str2), strstr(str1, str2));
+}
+END_TEST
+
+START_TEST(tc062_strstr) {
+  char str1[] = "Hello world";
+  char str2[] = "";
+  ck_assert_pstr_eq(s21_strstr(str1, str2), strstr(str1, str2));
 }
 END_TEST
 
@@ -475,7 +593,6 @@ Suite *ts_s21_strchr() {
 
   tcase_add_test(test_case, tc026_strchr);
   tcase_add_test(test_case, tc027_strchr);
-  tcase_add_test(test_case, tc027_strchr);
   tcase_add_test(test_case, tc028_strchr);
   suite_add_tcase(suite, test_case);
 
@@ -542,6 +659,19 @@ Suite *ts_s21_strcspn() {
   return suite;
 }
 
+Suite *ts_s21_strerror() {
+  Suite *suite = suite_create("ts_s21_strerror");
+  TCase *test_case = tcase_create("tc_s21_strerror");
+
+  tcase_add_test(test_case, tc044_strerror);
+  tcase_add_test(test_case, tc045_strerror);
+  tcase_add_test(test_case, tc046_strerror);
+  tcase_add_test(test_case, tc047_strerror);
+  suite_add_tcase(suite, test_case);
+
+  return suite;
+}
+
 Suite *ts_s21_strlen() {
   Suite *suite = suite_create("ts_s21_strlen");
   TCase *test_case = tcase_create("tc_s21_strlen");
@@ -554,14 +684,62 @@ Suite *ts_s21_strlen() {
   return suite;
 }
 
+Suite *ts_s21_strpbrk() {
+  Suite *suite = suite_create("ts_s21_strpbrk");
+  TCase *test_case = tcase_create("tc_s21_strpbrk");
+
+  tcase_add_test(test_case, tc051_strpbrk);
+  tcase_add_test(test_case, tc052_strpbrk);
+  tcase_add_test(test_case, tc053_strpbrk);
+  suite_add_tcase(suite, test_case);
+
+  return suite;
+}
+
+Suite *ts_s21_strrchr() {
+  Suite *suite = suite_create("ts_s21_strchr");
+  TCase *test_case = tcase_create("tc_s21_strchr");
+
+  tcase_add_test(test_case, tc054_strrchr);
+  tcase_add_test(test_case, tc055_strrchr);
+  tcase_add_test(test_case, tc056_strrchr);
+  suite_add_tcase(suite, test_case);
+
+  return suite;
+}
+
+Suite *ts_s21_strspn() {
+  Suite *suite = suite_create("ts_s21_strspn");
+  TCase *test_case = tcase_create("tc_s21_strspn");
+
+  tcase_add_test(test_case, tc057_strspn);
+  tcase_add_test(test_case, tc058_strspn);
+  tcase_add_test(test_case, tc059_strspn);
+  suite_add_tcase(suite, test_case);
+
+  return suite;
+}
+
+Suite *ts_s21_strstr() {
+  Suite *suite = suite_create("ts_s21_strstr");
+  TCase *test_case = tcase_create("tc_s21_strstr");
+
+  tcase_add_test(test_case, tc060_strstr);
+  tcase_add_test(test_case, tc061_strstr);
+  tcase_add_test(test_case, tc062_strstr);
+  suite_add_tcase(suite, test_case);
+
+  return suite;
+}
+
 int main(void) {
   int failed = 0;
   Suite *test_suites[] = {
-      ts_s21_memchr(),  ts_s21_memcmp(), ts_s21_memcpy(),
-      ts_s21_memmove(), ts_s21_memset(), ts_s21_strcat(),
-      ts_s21_strncat(), ts_s21_strchr(), ts_s21_strcmp(),
-      ts_s21_strncmp(), ts_s21_strcpy(), ts_s21_strncpy(),
-      ts_s21_strcspn(), ts_s21_strlen(), NULL,
+      ts_s21_memchr(),  ts_s21_memcmp(),   ts_s21_memcpy(),  ts_s21_memmove(),
+      ts_s21_memset(),  ts_s21_strcat(),   ts_s21_strncat(), ts_s21_strchr(),
+      ts_s21_strcmp(),  ts_s21_strncmp(),  ts_s21_strcpy(),  ts_s21_strncpy(),
+      ts_s21_strcspn(), ts_s21_strerror(), ts_s21_strlen(),  ts_s21_strpbrk(),
+      ts_s21_strrchr(), ts_s21_strspn(),   ts_s21_strstr(),  NULL,
   };
 
   for (Suite **s = test_suites; *s != NULL; s++) {

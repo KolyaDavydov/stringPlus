@@ -70,7 +70,6 @@ void *s21_memmove(void *dest, const void *src, s21_size_t n) {
 }
 
 /**
-<<<<<<< HEAD
     5. Copies the character c (an unsigned char) to the first n characters of
     the string pointed to, by the argument str.
 
@@ -197,6 +196,75 @@ s21_size_t s21_strcspn(const char *str1, const char *str2) {
 }
 
 /**
+    14. Searches an internal array for the error number errnum and returns a
+    pointer to an error message string. You need to declare macros containing
+    arrays of error messages for mac and linux operating systems. Error
+    descriptions are available in the original library. Checking the current
+    OS is carried out using directives.
+
+    Implementes by: Almeta Terry
+**/
+
+// макросы (ERROR_NUM и LIST_ERROR) содержащие массивы строк
+// в зависимости от ОС (linux  или mac)
+// объявлены в заголовочном файле, там же с помощью деректив
+// определяется текущая операционная система
+
+char *s21_strerror(int errnum) {
+  static char error[1024] = {'\0'};
+  char *error_list[] = LIST_ERROR;
+  if (errnum >= 0 && errnum < ERROR_NUM) {
+    s21_strcpy(error, error_list[errnum]);
+  } else {
+    char tmp_num[50] = {0};  // для хранения числа в виде строки
+#if defined(__linux__)
+    s21_strcpy(error, "Unknown error ");
+#elif (__APPLE__)
+    s21_strcpy(error, "Unknown error: ");
+#endif
+    // ЛИБО ЗДЕСЬ МОЖНО БУДЕТ ВОСПОЛЬЗОТЬСЯ ФУНКЦИЕЙ S21_sprintf()
+    s21_strcat(error, int_to_str(tmp_num, errnum));
+  }
+  return error;
+}
+
+// ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ, ЕСЛИ СДЛЕАЕМ sprintf, то можно сократить
+// ALMETA TERRY
+char *int_to_str(char *tmp_num, int errnum) {
+  int num = errnum;
+  int pow_of_ten = 1;
+  int minus = 0;  // если число отрицаткльное то будет = 1
+  if (num < 0) {
+    minus = 1;
+    num = -num;
+  }
+  if (num == 0) {
+    tmp_num[0] = '0';
+    tmp_num[1] = '\0';
+  } else {
+    while (pow_of_ten <= num) {
+      pow_of_ten *= 10;
+    }
+    pow_of_ten /= 10;
+    int position;  // разряд числа
+    if (minus == 0) {
+      position = 0;
+    } else {
+      tmp_num[0] = '-';
+      position = 1;
+    }
+    while (pow_of_ten != 0) {
+      tmp_num[position] = '0' + num / pow_of_ten;
+      num = num - num / pow_of_ten * pow_of_ten;
+      pow_of_ten /= 10;
+      position++;
+    }
+    tmp_num[position] = '\0';
+  }
+  return tmp_num;
+}
+
+/**
     15. Computes the length of the string str up to but not including the
     terminating null character.
 
@@ -206,4 +274,71 @@ s21_size_t s21_strlen(const char *str) {
   s21_size_t length = 0;
   while (*(str++) != 0) length++;
   return length;
+}
+
+/**
+    16. Finds the first character in the string str1 that matches any
+character specified in str2.
+
+    Implementes by: Almeta Terry
+**/
+char *s21_strpbrk(const char *str1, const char *str2) {
+  char *ptr = s21_NULL;
+  int flag = 0;
+  while (*str1 != '\0' && flag == 0) {
+    for (s21_size_t i = 0; i < s21_strlen(str2); i++) {
+      if (*str1 == str2[i]) {
+        flag = 1;
+        ptr = (char *)str1;
+      }
+    }
+    str1++;
+  }
+  return ptr;
+}
+
+/**
+    17. Searches for the last occurrence of the character c (an unsigned char)
+    in the string pointed to by the argument str.
+
+    Implementes by: Almeta Terry
+**/
+char *s21_strrchr(const char *str, int c) {
+  char *ptr = s21_NULL;
+  for (s21_size_t i = 0; i < s21_strlen(str) + 1; i++) {
+    if (str[i] == (unsigned char)c) ptr = (char *)&str[i];
+  }
+  return ptr;
+}
+
+/**
+    18. Calculates the length of the initial segment of str1 which consists
+    entirely of characters in str2.
+
+    Implementes by: Almeta Terry
+**/
+s21_size_t s21_strspn(const char *str1, const char *str2) {
+  s21_size_t counter = 0;
+  while (*str1 != '\0' && s21_strchr(str2, *str1++)) counter++;
+  return counter;
+}
+
+/**
+    19. Finds the first occurrence of the entire string needle (not including
+    the terminating null character) which appears in the string haystack.
+
+    Implementes by: Almeta Terry
+**/
+char *s21_strstr(const char *haystack, const char *needle) {
+  s21_size_t i = 0, j = 0;
+  char *ptr = s21_NULL;
+  if (needle[0] == '\0') ptr = (char *)haystack;
+  while (haystack[i] != '\0') {
+    while (haystack[i + j] != '\0' && haystack[i + j] == needle[j]) {
+      if (needle[j + 1] == '\0') ptr = (char *)(haystack + i);
+      ++j;
+    }
+    ++i;
+  }
+  return ptr;
 }
