@@ -142,6 +142,18 @@ int s21_strcmp(const char *str1, const char *str2) {
 }
 
 /**
+    10. Compares at most the first n bytes of str1 and str2.
+
+    Implementes by: Almeta Terry
+**/
+int s21_strncmp(const char *str1, const char *str2, s21_size_t n) {
+  int result = 0;
+  for (s21_size_t i = 0; i < n && result == 0; i++)
+    result = *(str1 + i) - *(str2 + i);
+  return result;
+}
+
+/**
     15. Computes the length of the string str up to but not including the
     terminating null character.
 
