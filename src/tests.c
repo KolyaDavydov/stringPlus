@@ -280,6 +280,32 @@ START_TEST(tc034_strncmp) {
 }
 END_TEST
 
+// <=== TEST CASES: s21_strcpy ===>
+
+START_TEST(tc035_strcpy) {
+  char dest1[30] = "S21_SCHOOL";
+  char dest2[30] = "S21_SCHOOL";
+  char str[30] = "Is back!";
+  ck_assert_str_eq(strcpy(dest1, str), s21_strcpy(dest2, str));
+}
+END_TEST
+
+START_TEST(tc036_strcpy) {
+  char dest1[30] = "S21_SCHOOL";
+  char dest2[30] = "S21_SCHOOL";
+  char str[30] = "Is back! Is hard....";
+  ck_assert_str_eq(strcpy(dest1, str), s21_strcpy(dest2, str));
+}
+END_TEST
+
+START_TEST(tc037_strcpy) {
+  char dest1[30] = "";
+  char dest2[30] = "";
+  char str[30] = "Is back! Is hard....";
+  ck_assert_str_eq(strcpy(dest1, str), s21_strcpy(dest2, str));
+}
+END_TEST
+
 // <=== TEST CASES: s21_strlen ===>
 
 START_TEST(tc048_strlen) {
@@ -428,6 +454,18 @@ Suite *ts_s21_strncmp() {
   return suite;
 }
 
+Suite *ts_s21_strcpy() {
+  Suite *suite = suite_create("ts_s21_strcpy");
+  TCase *test_case = tcase_create("tc_s21_strcpy");
+
+  tcase_add_test(test_case, tc035_strcpy);
+  tcase_add_test(test_case, tc036_strcpy);
+  tcase_add_test(test_case, tc037_strcpy);
+  suite_add_tcase(suite, test_case);
+
+  return suite;
+}
+
 Suite *ts_s21_strlen() {
   Suite *suite = suite_create("ts_s21_strlen");
   TCase *test_case = tcase_create("tc_s21_strlen");
@@ -443,9 +481,19 @@ Suite *ts_s21_strlen() {
 int main(void) {
   int failed = 0;
   Suite *test_suites[] = {
-      ts_s21_memchr(), ts_s21_memcmp(),  ts_s21_memcpy(),  ts_s21_memmove(),
-      ts_s21_memset(), ts_s21_strcat(),  ts_s21_strncat(), ts_s21_strchr(),
-      ts_s21_strcmp(), ts_s21_strncmp(), ts_s21_strlen(),  NULL,
+      ts_s21_memchr(),
+      ts_s21_memcmp(),
+      ts_s21_memcpy(),
+      ts_s21_memmove(),
+      ts_s21_memset(),
+      ts_s21_strcat(),
+      ts_s21_strncat(),
+      ts_s21_strchr(),
+      ts_s21_strcmp(),
+      ts_s21_strncmp(),
+      ts_s21_strcpy(),
+      ts_s21_strlen(),
+      NULL,
   };
 
   for (Suite **s = test_suites; *s != NULL; s++) {
