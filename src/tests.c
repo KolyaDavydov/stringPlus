@@ -231,6 +231,29 @@ START_TEST(tc028_strchr) {
 }
 END_TEST
 
+// <=== TEST CASES: s21_strcmp ===>
+
+START_TEST(tc029_strcmp) {
+  char str1[30] = "S21_SCHOOL";
+  char str2[30] = "S21_SCHOOL";
+  ck_assert_int_eq(strcmp(str1, str2), s21_strcmp(str1, str2));
+}
+END_TEST
+
+START_TEST(tc030_strcmp) {
+  char str1[30] = "S21_SCHOOL";
+  char str2[30] = "S21_SChool";
+  ck_assert_int_eq(strcmp(str1, str2), s21_strcmp(str1, str2));
+}
+END_TEST
+
+START_TEST(tc031_strcmp) {
+  char str1[30] = "S21_\nSCHOOL";
+  char str2[30] = "S21_\nSCHOOL";
+  ck_assert_int_eq(strcmp(str1, str2), s21_strcmp(str1, str2));
+}
+END_TEST
+
 // <=== TEST CASES: s21_strlen ===>
 
 START_TEST(tc048_strlen) {
@@ -342,6 +365,31 @@ Suite *ts_s21_strncat() {
   return suite;
 }
 
+Suite *ts_s21_strchr() {
+  Suite *suite = suite_create("ts_s21_strchr");
+  TCase *test_case = tcase_create("tc_s21_strchr");
+
+  tcase_add_test(test_case, tc026_strchr);
+  tcase_add_test(test_case, tc027_strchr);
+  tcase_add_test(test_case, tc027_strchr);
+  tcase_add_test(test_case, tc028_strchr);
+  suite_add_tcase(suite, test_case);
+
+  return suite;
+}
+
+Suite *ts_s21_strcmp() {
+  Suite *suite = suite_create("ts_s21_strcmp");
+  TCase *test_case = tcase_create("tc_s21_strcmp");
+
+  tcase_add_test(test_case, tc029_strcmp);
+  tcase_add_test(test_case, tc030_strcmp);
+  tcase_add_test(test_case, tc031_strcmp);
+  suite_add_tcase(suite, test_case);
+
+  return suite;
+}
+
 Suite *ts_s21_strlen() {
   Suite *suite = suite_create("ts_s21_memmove");
   TCase *test_case = tcase_create("tc_s21_memmove");
@@ -354,26 +402,20 @@ Suite *ts_s21_strlen() {
   return suite;
 }
 
-Suite *ts_s21_strchr() {
-  Suite *suite = suite_create("ts_s21_strchr");
-  TCase *test_case = tcase_create("tc_s21_strchr");
-
-  tcase_add_test(test_case, tc026_strchr);
-  tcase_add_test(test_case, tc027_strchr);
-  tcase_add_test(test_case, tc027_strchr);
-  suite_add_tcase(suite, test_case);
-
-  return suite;
-}
-
 int main(void) {
   int failed = 0;
   Suite *test_suites[] = {
-      ts_s21_memchr(),  ts_s21_memcmp(),
-      ts_s21_memcpy(),  ts_s21_memmove(),
-      ts_s21_memset(),  ts_s21_strcat(),
-      ts_s21_strncat(), ts_s21_strchr(),
-      ts_s21_strlen(),  NULL,
+      ts_s21_memchr(),
+      ts_s21_memcmp(),
+      ts_s21_memcpy(),
+      ts_s21_memmove(),
+      ts_s21_memset(),
+      ts_s21_strcat(),
+      ts_s21_strncat(),
+      ts_s21_strchr(),
+      ts_s21_strcmp(),
+      ts_s21_strlen(),
+      NULL,
   };
 
   for (Suite **s = test_suites; *s != NULL; s++) {

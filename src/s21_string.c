@@ -130,6 +130,18 @@ char *s21_strchr(const char *str, int c) {
 }
 
 /**
+    9. Compares the string pointed to, by str1 to the string pointed to by str2.
+
+    Implemented by: Almeta Terry
+**/
+
+int s21_strcmp(const char *str1, const char *str2) {
+  while (*str1)
+    if (*str1++ != *str2++) break;
+  return *str1 - *str2;
+}
+
+/**
     15. Computes the length of the string str up to but not including the
     terminating null character.
 
