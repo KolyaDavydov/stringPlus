@@ -112,7 +112,7 @@ START_TEST(tc011_memmove) {
 }
 END_TEST
 
-// 5. ТЕСТЫ ДЛЯ memset
+// <=== TEST CASES: s21_memset ===>
 
 START_TEST(tc015_memset) {
   s21_size_t n = 12;
@@ -137,6 +137,26 @@ START_TEST(tc017_memset) {
   char str_2[100] = "sdsdf";
   ck_assert_str_eq(memset(str_1, ch, n), s21_memset(str_2, ch, n));
   ck_assert_pstr_eq(memset(str_1, ch, n), s21_memset(str_2, ch, n));
+}
+END_TEST
+
+// <=== TEST CASES: s21_strlen ===>
+
+START_TEST(tc048_strlen) {
+  char str[100] = "";
+  ck_assert_int_eq(strlen(str), s21_strlen(str));
+}
+END_TEST
+
+START_TEST(tc049_strlen) {
+  char str[100] = "Hello world!";
+  ck_assert_int_eq(strlen(str), s21_strlen(str));
+}
+END_TEST
+
+START_TEST(tc050_strlen) {
+  char str[100] = "Hello \0\t\nworld!";
+  ck_assert_int_eq(strlen(str), s21_strlen(str));
 }
 END_TEST
 
@@ -205,6 +225,18 @@ Suite *ts_s21_memset() {
   return suite;
 }
 
+Suite *ts_s21_strlen() {
+  Suite *suite = suite_create("ts_s21_memmove");
+  TCase *test_case = tcase_create("tc_s21_memmove");
+
+  tcase_add_test(test_case, tc048_strlen);
+  tcase_add_test(test_case, tc049_strlen);
+  tcase_add_test(test_case, tc050_strlen);
+  suite_add_tcase(suite, test_case);
+
+  return suite;
+}
+
 int main(void) {
   int failed = 0;
   Suite *test_suites[] = {
@@ -213,6 +245,7 @@ int main(void) {
       ts_s21_memcpy(),
       ts_s21_memmove(),
       ts_s21_memset(),
+      ts_s21_strlen(),
       NULL,
   };
 

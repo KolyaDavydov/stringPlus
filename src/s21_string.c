@@ -3,14 +3,14 @@
 /**
     1. Searches for the first occurrence of the character c (an unsigned char)
     in the first n bytes of the string pointed to, by the argument str.
-    
+
     Implemented by: Almeta Terry
 **/
 void *s21_memchr(const void *str, int c, s21_size_t n) {
   unsigned char *res = s21_NULL;
   const unsigned char *ptr = str;
-  for (int i = 0; i < (int) n; i++) {
-    if(*ptr == (unsigned char) c) {
+  for (int i = 0; i < (int)n; i++) {
+    if (*ptr == (unsigned char)c) {
       res = (void *)ptr;
     } else {
       ptr++;
@@ -77,8 +77,18 @@ void *s21_memmove(void *dest, const void *src, s21_size_t n) {
 **/
 void *s21_memset(void *str, int c, s21_size_t n) {
   char *ptr = str;
-  for(s21_size_t i = 0; i < n; i++) {
-    *(ptr + i) = c;
-  }
+  for (s21_size_t i = 0; i < n; i++) *(ptr + i) = c;
   return ptr;
+}
+
+/**
+    15. Computes the length of the string str up to but not including the
+    terminating null character.
+
+    Implementes by: Almeta Terry
+**/
+s21_size_t s21_strlen(const char *str) {
+  s21_size_t length = 0;
+  while (*(str++) != 0) length++;
+  return length;
 }
