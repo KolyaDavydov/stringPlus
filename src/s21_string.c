@@ -355,8 +355,8 @@ char *s21_strtok(char *str, const char *delim) {
   int ch = 0;
 
   if (!str) {
-    str = arr;
     if (arr) {
+      str = arr;
       flag = 1;
       ch = *str;
     } else {
