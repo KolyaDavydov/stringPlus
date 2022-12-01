@@ -496,6 +496,85 @@ START_TEST(tc062_strstr) {
 }
 END_TEST
 
+// <=== TEST CASES: s21_strtok ===>
+
+START_TEST(tc063_strtok) {
+  char str1[] = "Hello/world/!!!";
+  char str2[] = "Hello/world/!!!";
+  char del[] = "/";
+  char *ch1 = strtok(str1, del);
+  char *ch2 = s21_strtok(str2, del);
+  while (ch1 != s21_NULL) {
+    ck_assert_pstr_eq(ch1, ch2);
+    ch1 = strtok(s21_NULL, del);
+    ch2 = s21_strtok(s21_NULL, del);
+  }
+}
+END_TEST
+
+START_TEST(tc064_strtok) {
+  char str1[] = "Hello/world/!!!";
+  char str2[] = "Hello/world/!!!";
+  char del[] = "";
+  char *ch1 = strtok(str1, del);
+  char *ch2 = s21_strtok(str2, del);
+  while (ch1 != s21_NULL) {
+    ck_assert_pstr_eq(ch1, ch2);
+    ch1 = strtok(s21_NULL, del);
+    ch2 = s21_strtok(s21_NULL, del);
+  }
+}
+END_TEST
+
+START_TEST(tc065_strtok) {
+  char str1[] = ". Hello /world/!!! ";
+  char str2[] = ". Hello /world/!!! ";
+  char del[] = ". ";
+
+  char *ch1 = strtok(str1, del);
+  char *ch2 = s21_strtok(str2, del);
+  while (ch1 != s21_NULL) {
+    ck_assert_pstr_eq(ch1, ch2);
+    ch1 = strtok(s21_NULL, del);
+    ch2 = s21_strtok(s21_NULL, del);
+  }
+}
+END_TEST
+
+START_TEST(tc066_strtok) {
+  char str1[] = ". Hello /world/!!! ";
+  char str2[] = ". Hello /world/!!! ";
+  char del[] = "1";
+
+  char *ch1 = strtok(str1, del);
+  char *ch2 = s21_strtok(str2, del);
+  ck_assert_pstr_eq(ch1, ch2);
+  while (ch1 != s21_NULL) {
+    ck_assert_pstr_eq(ch1, ch2);
+    ch1 = strtok(s21_NULL, del);
+    ch2 = s21_strtok(s21_NULL, del);
+  }
+  ck_assert_pstr_eq(ch1, ch2);
+}
+END_TEST
+
+START_TEST(tc067_strtok) {
+  char str1[] = ". Hello /world/!!! ";
+  char str2[] = ". Hello /world/!!! ";
+  char del[] = ". ";
+
+  char *ch1 = strtok(str1, del);
+  char *ch2 = s21_strtok(str2, del);
+  ck_assert_pstr_eq(ch1, ch2);
+  while (ch1 != s21_NULL) {
+    ck_assert_pstr_eq(ch1, ch2);
+    ch1 = strtok(s21_NULL, del);
+    ch2 = s21_strtok(s21_NULL, del);
+  }
+  ck_assert_pstr_eq(ch1, ch2);
+}
+END_TEST
+
 /**
     --------------------------------------------------
             <========== TEST SUITES ==========>
@@ -732,14 +811,30 @@ Suite *ts_s21_strstr() {
   return suite;
 }
 
+Suite *ts_s21_strtok() {
+  Suite *suite = suite_create("ts_s21_strtok");
+  TCase *test_case = tcase_create("tc_s21_strtok");
+
+  tcase_add_test(test_case, tc063_strtok);
+  tcase_add_test(test_case, tc064_strtok);
+  tcase_add_test(test_case, tc065_strtok);
+  tcase_add_test(test_case, tc066_strtok);
+  tcase_add_test(test_case, tc067_strtok);
+  suite_add_tcase(suite, test_case);
+
+  return suite;
+}
+
 int main(void) {
   int failed = 0;
   Suite *test_suites[] = {
-      ts_s21_memchr(),  ts_s21_memcmp(),   ts_s21_memcpy(),  ts_s21_memmove(),
-      ts_s21_memset(),  ts_s21_strcat(),   ts_s21_strncat(), ts_s21_strchr(),
-      ts_s21_strcmp(),  ts_s21_strncmp(),  ts_s21_strcpy(),  ts_s21_strncpy(),
-      ts_s21_strcspn(), ts_s21_strerror(), ts_s21_strlen(),  ts_s21_strpbrk(),
-      ts_s21_strrchr(), ts_s21_strspn(),   ts_s21_strstr(),  NULL,
+      ts_s21_memchr(),  ts_s21_memcmp(),   ts_s21_memcpy(),
+      ts_s21_memmove(), ts_s21_memset(),   ts_s21_strcat(),
+      ts_s21_strncat(), ts_s21_strchr(),   ts_s21_strcmp(),
+      ts_s21_strncmp(), ts_s21_strcpy(),   ts_s21_strncpy(),
+      ts_s21_strcspn(), ts_s21_strerror(), ts_s21_strlen(),
+      ts_s21_strpbrk(), ts_s21_strrchr(),  ts_s21_strspn(),
+      ts_s21_strstr(),  ts_s21_strtok(),   NULL,
   };
 
   for (Suite **s = test_suites; *s != NULL; s++) {

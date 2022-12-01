@@ -342,3 +342,53 @@ char *s21_strstr(const char *haystack, const char *needle) {
   }
   return ptr;
 }
+
+/**
+    20. Breaks string str into a series of tokens separated by delim.
+
+    Implementes by: Aqua Nelida
+**/
+char *s21_strtok(char *str, const char *delim) {
+  static char *arr = s21_NULL;
+  int flag = 0;
+  int check = 0;
+  int ch = 0;
+
+  if (!str) {
+    str = arr;
+    if (arr) {
+      flag = 1;
+      ch = *str;
+    } else {
+      arr = s21_NULL;
+      flag = 0;
+    }
+  } else {
+    if (*str == '\0') str = s21_NULL;
+    if (*delim == '\0') check = 1;
+    if (!str || *delim == '\0') {
+      flag = 0;
+    } else {
+      flag = 1;
+      ch = *str;
+      if (s21_strpbrk(str, delim) == s21_NULL) flag = 0;
+    }
+  }
+
+  while (s21_strchr(delim, ch) && flag != 0) {
+    if ((ch = *++str) == '\0') {
+      flag = 0;
+    }
+  }
+
+  if (flag != 0) {
+    arr = str + s21_strcspn(str, delim);
+    if (*arr != '\0') {
+      *arr = '\0';
+    }
+  } else if ((check != 1 && ch == 0) || *str == '\0') {
+    str = 0;
+  }
+
+  return str;
+}
