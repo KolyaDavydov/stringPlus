@@ -192,6 +192,20 @@ void tc_s21_strtok() {
   a = s21_strtok(NULL, buff2);
 }
 
+// <=== TEST CASES: s21_to_upper ===>
+
+void tc_s21_upper() {
+  char buff[100] = "Spider Man love a bananasi 123 /// 0";
+  s21_to_upper(buff);
+}
+
+// <=== TEST CASES: s21_to_lower ===>
+
+void tc_s21_lower() {
+  char buff[100] = "SPIDER MAN LOVE A BANANASI /// 0";
+  s21_to_upper(buff);
+}
+
 int main(void) {
   tc_s21_memchr();
   tc_s21_memcmp();
@@ -213,5 +227,7 @@ int main(void) {
   tc_s21_strspn();
   tc_s21_strstr();
   tc_s21_strtok();
+  tc_s21_upper();
+  tc_s21_lower();
   return 0;
 }
