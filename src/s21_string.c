@@ -392,3 +392,123 @@ char *s21_strtok(char *str, const char *delim) {
 
   return str;
 }
+
+/**
+    1. Returns a copy of string (str) converted to uppercase. In case of any
+    error, return NULL
+
+    Implementes by: Aqua Nelida
+**/
+
+void *s21_to_upper(const char *str) {
+  static char *arr = s21_NULL;
+  if (*str != '\0' && str != s21_NULL) {
+    static char buff[1024] = "\0";
+    int i = 0;
+    for (; str[i] != '\0'; i++) {
+      buff[i] = str[i];
+      if (buff[i] >= 'a' && buff[i] <= 'z') {
+        buff[i] -= 32;
+      }
+    }
+    arr = buff;
+  } else {
+    arr = s21_NULL;
+  }
+
+  return arr;
+}
+
+/**
+    2. Returns a copy of string (str) converted to lowercase. In case of any
+    error, return NULL
+
+    Implementes by: Aqua Nelida
+**/
+
+void *s21_to_lower(const char *str) {
+  static char *arr = s21_NULL;
+  if (*str != '\0' && str != s21_NULL) {
+    static char buff[1024] = "\0";
+    int i = 0;
+    for (; str[i] != '\0'; i++) {
+      buff[i] = str[i];
+      if (buff[i] >= 'A' && buff[i] <= 'Z') {
+        buff[i] += 32;
+      }
+    }
+    arr = buff;
+  } else {
+    arr = s21_NULL;
+  }
+
+  return arr;
+}
+
+/**
+    3. Returns a new string in which a specified string (str) is inserted at a
+    specified index position (start_index) in the given string (src). In case of
+    any error, return NULL
+
+    Implementes by: Aqua Nelida
+**/
+
+void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
+  static char *arr = s21_NULL;
+  if (*str != '\0' && str != s21_NULL && *src != '\0' && src != s21_NULL) {
+    static char buff[1024] = "\0";
+    s21_size_t k = 0;
+    for (s21_size_t i = 0; src[i] != '\0'; i++) {
+      if (i < start_index) buff[i] = src[i];
+      if (i == start_index) {
+        k = i;
+        for (s21_size_t j = 0; str[j] != '\0'; j++) {
+          buff[k] = str[j];
+          k++;
+        }
+      }
+      if (i >= start_index) {
+        buff[k] = src[i];
+        k++;
+      }
+    }
+    arr = buff;
+  } else {
+    arr = s21_NULL;
+  }
+
+  return arr;
+}
+
+/**
+    4. Returns a new string in which all leading and trailing occurrences of a
+    set of specified characters (trim_chars) from the given string (src) are
+    removed. In case of any error, return NULL
+
+    Implementes by: Aqua Nelida
+**/
+
+void *s21_trim(const char *src, const char *trim_chars) {
+  static char *arr = s21_NULL;
+  static char buff[1024] = "\0";
+  int i = 0;
+  int j = 0;
+  int ch = *src;
+  int flag = 0;
+  if (*src == '\0' || *trim_chars == '\0') {
+    arr = s21_NULL;
+  } else {
+    for (; s21_strchr(trim_chars, ch); i++) ch = *++src;
+    for (; *src != '\0'; j++) buff[j] = *src++;
+    while (j != 0 && flag == 0) {
+      ch = buff[j];
+      if (s21_strchr(trim_chars, ch) && buff[j] != '\0')
+        buff[j] = '\0';
+      else if (!s21_strchr(trim_chars, ch))
+        flag = 1;
+      j--;
+    }
+    arr = buff;
+  }
+  return arr;
+}
