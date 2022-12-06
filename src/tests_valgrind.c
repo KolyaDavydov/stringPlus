@@ -1,5 +1,3 @@
-#include <string.h>
-
 #include "s21_string.h"
 #include "stdio.h"
 
@@ -186,10 +184,10 @@ void tc_s21_strtok() {
   char buff1[100] = "Spider Man love a bananasi";
   char buff2[100] = "era";
   char *a = s21_strtok(buff1, buff2);
-  while (a != NULL) {
-    a = s21_strtok(NULL, buff2);
+  while (a != s21_NULL) {
+    a = s21_strtok(s21_NULL, buff2);
   }
-  a = s21_strtok(NULL, buff2);
+  a = s21_strtok(s21_NULL, buff2);
 }
 
 // <=== TEST CASES: s21_to_upper ===>
@@ -211,9 +209,8 @@ void tc_s21_lower() {
 void tc_s21_insert() {
   char buff[100] = ". Hello /world/!!! ";
   char arr[100] = ". / !";
-  size_t i = 0;
-  char *a = s21_insert(buff, arr, i);
-  printf("%s", a);
+  s21_size_t i = 0;
+  s21_insert(buff, arr, i);
 }
 
 // <=== TEST CASES: s21_trim ===>
