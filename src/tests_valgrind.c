@@ -206,6 +206,16 @@ void tc_s21_lower() {
   s21_to_lower(buff);
 }
 
+// <=== TEST CASES: s21_insert ===>
+
+void tc_s21_insert() {
+  char buff[100] = ". Hello /world/!!! ";
+  char arr[100] = ". / !";
+  size_t i = 0;
+  char *a = s21_insert(buff, arr, i);
+  printf("%s", a);
+}
+
 // <=== TEST CASES: s21_trim ===>
 
 void tc_s21_trim() {
@@ -237,6 +247,7 @@ int main(void) {
   tc_s21_strtok();
   tc_s21_upper();
   tc_s21_lower();
+  tc_s21_insert();
   tc_s21_trim();
   return 0;
 }
