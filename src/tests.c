@@ -575,6 +575,22 @@ START_TEST(tc067_strtok) {
 }
 END_TEST
 
+// <=== TEST CASES: s21_to_upper ===>
+
+START_TEST(tc068_to_upper) {
+  char str1[] = ". Hello /world/!!! ";
+  char *ch1 = s21_to_upper(str1);
+  printf("%s", ch1);
+}
+END_TEST
+
+START_TEST(tc069_to_upper) {
+  char str1[] = "";
+  char *ch1 = s21_to_upper(str1);
+  printf("%s", ch1);
+}
+END_TEST
+
 /**
     --------------------------------------------------
             <========== TEST SUITES ==========>
@@ -825,16 +841,31 @@ Suite *ts_s21_strtok() {
   return suite;
 }
 
+Suite *ts_s21_to_upper() {
+  Suite *suite = suite_create("ts_s21_to_upper");
+  TCase *test_case = tcase_create("tc_s21_to_upper");
+
+  tcase_add_test(test_case, tc068_to_upper);
+  tcase_add_test(test_case, tc069_to_upper);
+  suite_add_tcase(suite, test_case);
+
+  return suite;
+}
+
 int main(void) {
   int failed = 0;
   Suite *test_suites[] = {
-      ts_s21_memchr(),  ts_s21_memcmp(),   ts_s21_memcpy(),
-      ts_s21_memmove(), ts_s21_memset(),   ts_s21_strcat(),
-      ts_s21_strncat(), ts_s21_strchr(),   ts_s21_strcmp(),
-      ts_s21_strncmp(), ts_s21_strcpy(),   ts_s21_strncpy(),
-      ts_s21_strcspn(), ts_s21_strerror(), ts_s21_strlen(),
-      ts_s21_strpbrk(), ts_s21_strrchr(),  ts_s21_strspn(),
-      ts_s21_strstr(),  ts_s21_strtok(),   NULL,
+      ts_s21_memchr(),   ts_s21_memcmp(),
+      ts_s21_memcpy(),   ts_s21_memmove(),
+      ts_s21_memset(),   ts_s21_strcat(),
+      ts_s21_strncat(),  ts_s21_strchr(),
+      ts_s21_strcmp(),   ts_s21_strncmp(),
+      ts_s21_strcpy(),   ts_s21_strncpy(),
+      ts_s21_strcspn(),  ts_s21_strerror(),
+      ts_s21_strlen(),   ts_s21_strpbrk(),
+      ts_s21_strrchr(),  ts_s21_strspn(),
+      ts_s21_strstr(),   ts_s21_strtok(),
+      ts_s21_to_upper(), NULL,
   };
 
   for (Suite **s = test_suites; *s != NULL; s++) {
