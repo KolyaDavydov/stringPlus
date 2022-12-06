@@ -389,7 +389,6 @@ char *s21_strtok(char *str, const char *delim) {
   } else if ((check != 1 && ch == 0) || *str == '\0') {
     str = 0;
   }
-
   return str;
 }
 
@@ -405,18 +404,21 @@ void *s21_to_upper(const char *str) {
   char *buff = s21_NULL;
   if (*str != '\0' && str != s21_NULL) {
     buff = (char *)calloc((s21_strlen(str) + 1), sizeof(char));
-    int i = 0;
-    for (; str[i] != '\0'; i++) {
-      buff[i] = str[i];
-      if (buff[i] >= 'a' && buff[i] <= 'z') {
-        buff[i] -= 32;
+    if (buff == NULL) {
+      arr = s21_NULL;
+    } else {
+      int i = 0;
+      for (; str[i] != '\0'; i++) {
+        buff[i] = str[i];
+        if (buff[i] >= 'a' && buff[i] <= 'z') {
+          buff[i] -= 32;
+        }
       }
+      arr = buff;
     }
-    arr = buff;
   } else {
     arr = s21_NULL;
   }
-
   return arr;
 }
 
@@ -432,14 +434,18 @@ void *s21_to_lower(const char *str) {
   char *buff = s21_NULL;
   if (*str != '\0' && str != s21_NULL) {
     buff = (char *)calloc((s21_strlen(str) + 1), sizeof(char));
-    int i = 0;
-    for (; str[i] != '\0'; i++) {
-      buff[i] = str[i];
-      if (buff[i] >= 'A' && buff[i] <= 'Z') {
-        buff[i] += 32;
+    if (buff == s21_NULL) {
+      arr = s21_NULL;
+    } else {
+      int i = 0;
+      for (; str[i] != '\0'; i++) {
+        buff[i] = str[i];
+        if (buff[i] >= 'A' && buff[i] <= 'Z') {
+          buff[i] += 32;
+        }
       }
+      arr = buff;
     }
-    arr = buff;
   } else {
     arr = s21_NULL;
   }
@@ -460,29 +466,38 @@ void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
   char *buff = s21_NULL;
   if (*str != '\0' && str != s21_NULL && *src != '\0' && src != s21_NULL) {
     s21_size_t k = 0;
-    buff =
-        (char *)calloc((s21_strlen(src) + s21_strlen(str) + 1), sizeof(char));
-    for (s21_size_t i = 0; src[i] != '\0' || str[k] != '\0'; i++) {
-      if (i < start_index) {
-        buff[i] = src[i];
-      }
-      if (i == start_index) {
-        k = i;
-        for (s21_size_t j = 0; str[j] != '\0'; j++) {
-          buff[k] = str[j];
-          k++;
+    s21_size_t size = s21_strlen(src);
+    if (size <= start_index) {
+      arr = s21_NULL;
+    } else {
+      buff =
+          (char *)calloc((s21_strlen(src) + s21_strlen(str) + 1), sizeof(char));
+      if (buff == s21_NULL || size < start_index) {
+        arr = s21_NULL;
+      } else {
+        for (s21_size_t i = 0; src[i] != '\0' || str[k] != '\0'; i++) {
+          if (i < start_index) {
+            buff[i] = src[i];
+          }
+          if (i == start_index) {
+            k = i;
+            for (s21_size_t j = 0; str[j] != '\0'; j++) {
+              buff[k] = str[j];
+              k++;
+            }
+          }
+          if (i >= start_index) {
+            buff[k] = src[i];
+            k++;
+          }
         }
-      }
-      if (i >= start_index) {
-        buff[k] = src[i];
-        k++;
+        arr = buff;
       }
     }
-    arr = buff;
+
   } else {
     arr = s21_NULL;
   }
-
   return arr;
 }
 
@@ -506,19 +521,23 @@ void *s21_trim(const char *src, const char *trim_chars) {
   else {
     for (; s21_strchr(trim_chars, ch) && *src != '\0'; i++) ch = *++src;
     buff = (char *)calloc((s21_strlen(src) + 1), sizeof(char));
-    for (; *src != '\0'; j++) buff[j] = *src++;
-    while (j != 0 && flag == 0) {
-      ch = buff[j];
-      if (s21_strchr(trim_chars, ch) && buff[j] != '\0')
-        buff[j] = '\0';
-      else if (!s21_strchr(trim_chars, ch))
-        flag = 1;
-      j--;
-    }
-    if (*buff == '\0') {
+    if (buff == s21_NULL) {
       arr = s21_NULL;
     } else {
-      arr = buff;
+      for (; *src != '\0'; j++) buff[j] = *src++;
+      while (j != 0 && flag == 0) {
+        ch = buff[j];
+        if (s21_strchr(trim_chars, ch) && buff[j] != '\0')
+          buff[j] = '\0';
+        else if (!s21_strchr(trim_chars, ch))
+          flag = 1;
+        j--;
+      }
+      if (*buff == '\0') {
+        arr = s21_NULL;
+      } else {
+        arr = buff;
+      }
     }
   }
   return arr;
