@@ -2,6 +2,7 @@
 #define SRC_S21_STRING_H_
 
 #include <stdarg.h>
+#include <stdlib.h>
 
 /* <====== CONDITION AND LIST FOR s21_strerror DEPENDENCY ON OS======> */
 

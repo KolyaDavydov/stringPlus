@@ -402,8 +402,9 @@ char *s21_strtok(char *str, const char *delim) {
 
 void *s21_to_upper(const char *str) {
   static char *arr = s21_NULL;
+  char *buff = s21_NULL;
   if (*str != '\0' && str != s21_NULL) {
-    static char buff[1024] = "\0";
+    buff = (char *)calloc((s21_strlen(str) + 1), sizeof(char));
     int i = 0;
     for (; str[i] != '\0'; i++) {
       buff[i] = str[i];
@@ -428,8 +429,9 @@ void *s21_to_upper(const char *str) {
 
 void *s21_to_lower(const char *str) {
   static char *arr = s21_NULL;
+  char *buff = s21_NULL;
   if (*str != '\0' && str != s21_NULL) {
-    static char buff[1024] = "\0";
+    buff = (char *)calloc((s21_strlen(str) + 1), sizeof(char));
     int i = 0;
     for (; str[i] != '\0'; i++) {
       buff[i] = str[i];
@@ -455,9 +457,11 @@ void *s21_to_lower(const char *str) {
 
 void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
   static char *arr = s21_NULL;
+  char *buff = s21_NULL;
   if (*str != '\0' && str != s21_NULL && *src != '\0' && src != s21_NULL) {
-    static char buff[1024] = "\0";
     s21_size_t k = 0;
+    buff =
+        (char *)calloc((s21_strlen(src) + s21_strlen(str) + 1), sizeof(char));
     for (s21_size_t i = 0; src[i] != '\0' || str[k] != '\0'; i++) {
       if (i < start_index) {
         buff[i] = src[i];
@@ -491,16 +495,17 @@ void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
 **/
 
 void *s21_trim(const char *src, const char *trim_chars) {
-  static char *arr = s21_NULL;
-  static char buff[1024] = "\0";
   int i = 0;
   int j = 0;
   int ch = *src;
   int flag = 0;
+  static char *arr = s21_NULL;
+  char *buff = s21_NULL;
   if (*src == '\0' || *trim_chars == '\0')
     arr = s21_NULL;
   else {
     for (; s21_strchr(trim_chars, ch) && *src != '\0'; i++) ch = *++src;
+    buff = (char *)calloc((s21_strlen(src) + 1), sizeof(char));
     for (; *src != '\0'; j++) buff[j] = *src++;
     while (j != 0 && flag == 0) {
       ch = buff[j];

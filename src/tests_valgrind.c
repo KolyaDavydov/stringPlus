@@ -1,5 +1,6 @@
+#include <stdio.h>
+
 #include "s21_string.h"
-#include "stdio.h"
 
 // <=== TEST CASES: s21_memchr ===>
 
@@ -194,14 +195,16 @@ void tc_s21_strtok() {
 
 void tc_s21_upper() {
   char buff[100] = "Spider Man love a bananasi 123 /// 0";
-  s21_to_upper(buff);
+  char *a = s21_to_upper(buff);
+  free(a);
 }
 
 // <=== TEST CASES: s21_to_lower ===>
 
 void tc_s21_lower() {
   char buff[100] = "SPIDER MAN LOVE A BANANASI /// 0";
-  s21_to_lower(buff);
+  char *a = s21_to_lower(buff);
+  free(a);
 }
 
 // <=== TEST CASES: s21_insert ===>
@@ -210,7 +213,8 @@ void tc_s21_insert() {
   char buff[100] = ". Hello /world/!!! ";
   char arr[100] = ". / !";
   s21_size_t i = 0;
-  s21_insert(buff, arr, i);
+  char *a = s21_insert(buff, arr, i);
+  free(a);
 }
 
 // <=== TEST CASES: s21_trim ===>
@@ -218,7 +222,8 @@ void tc_s21_insert() {
 void tc_s21_trim() {
   char buff[100] = ". Hello /world/!!! ";
   char arr[100] = ". / !";
-  s21_trim(buff, arr);
+  char *a = s21_trim(buff, arr);
+  free(a);
 }
 
 int main(void) {
