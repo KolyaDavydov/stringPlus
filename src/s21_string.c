@@ -458,8 +458,10 @@ void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
   if (*str != '\0' && str != s21_NULL && *src != '\0' && src != s21_NULL) {
     static char buff[1024] = "\0";
     s21_size_t k = 0;
-    for (s21_size_t i = 0; src[i] != '\0'; i++) {
-      if (i < start_index) buff[i] = src[i];
+    for (s21_size_t i = 0; src[i] != '\0' || str[k] != '\0'; i++) {
+      if (i < start_index) {
+        buff[i] = src[i];
+      }
       if (i == start_index) {
         k = i;
         for (s21_size_t j = 0; str[j] != '\0'; j++) {
@@ -495,10 +497,10 @@ void *s21_trim(const char *src, const char *trim_chars) {
   int j = 0;
   int ch = *src;
   int flag = 0;
-  if (*src == '\0' || *trim_chars == '\0') {
+  if (*src == '\0' || *trim_chars == '\0')
     arr = s21_NULL;
-  } else {
-    for (; s21_strchr(trim_chars, ch); i++) ch = *++src;
+  else {
+    for (; s21_strchr(trim_chars, ch) && *src != '\0'; i++) ch = *++src;
     for (; *src != '\0'; j++) buff[j] = *src++;
     while (j != 0 && flag == 0) {
       ch = buff[j];
@@ -508,7 +510,11 @@ void *s21_trim(const char *src, const char *trim_chars) {
         flag = 1;
       j--;
     }
-    arr = buff;
+    if (*buff == '\0') {
+      arr = s21_NULL;
+    } else {
+      arr = buff;
+    }
   }
   return arr;
 }

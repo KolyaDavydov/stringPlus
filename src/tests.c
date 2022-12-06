@@ -619,10 +619,45 @@ START_TEST(tc072_insert) {
 END_TEST
 
 START_TEST(tc073_insert) {
-  char str1[] = "qwe";
+  char str1[] = "qwe ";
   char str2[] = "space";
-  s21_size_t i = 4;
+  s21_size_t i = 3;
   char *ch1 = s21_insert(str1, str2, i);
+  ck_assert_pstr_eq(ch1, "qwespace ");
+}
+END_TEST
+
+START_TEST(tc074_insert) {
+  char str1[] = "";
+  char str2[] = "space";
+  s21_size_t i = 3;
+  char *ch1 = s21_insert(str1, str2, i);
+  ck_assert_pstr_eq(ch1, s21_NULL);
+}
+END_TEST
+
+// <=== TEST CASES: s21_trim ===>
+
+START_TEST(tc075_trim) {
+  char str1[] = ". HELLO /WORLD/!!! ";
+  char str2[] = ". /!";
+  char *ch1 = s21_trim(str1, str2);
+  ck_assert_pstr_eq(ch1, "HELLO /WORLD");
+}
+END_TEST
+
+START_TEST(tc076_trim) {
+  char str1[] = ". /!!! ";
+  char str2[] = ". /!";
+  char *ch1 = s21_trim(str1, str2);
+  ck_assert_pstr_eq(ch1, s21_NULL);
+}
+END_TEST
+
+START_TEST(tc077_trim) {
+  char str1[] = ". HELLO /WORLD/!!! ";
+  char str2[] = "";
+  char *ch1 = s21_trim(str1, str2);
   ck_assert_pstr_eq(ch1, s21_NULL);
 }
 END_TEST
@@ -905,6 +940,19 @@ Suite *ts_s21_insert() {
 
   tcase_add_test(test_case, tc072_insert);
   tcase_add_test(test_case, tc073_insert);
+  tcase_add_test(test_case, tc074_insert);
+  suite_add_tcase(suite, test_case);
+
+  return suite;
+}
+
+Suite *ts_s21_trim() {
+  Suite *suite = suite_create("ts_s21_trim");
+  TCase *test_case = tcase_create("tc_s21_trim");
+
+  tcase_add_test(test_case, tc075_trim);
+  tcase_add_test(test_case, tc076_trim);
+  tcase_add_test(test_case, tc077_trim);
   suite_add_tcase(suite, test_case);
 
   return suite;
@@ -913,12 +961,31 @@ Suite *ts_s21_insert() {
 int main(void) {
   int failed = 0;
   Suite *test_suites[] = {
-      ts_s21_memchr(),   ts_s21_memcmp(),   ts_s21_memcpy(),  ts_s21_memmove(),
-      ts_s21_memset(),   ts_s21_strcat(),   ts_s21_strncat(), ts_s21_strchr(),
-      ts_s21_strcmp(),   ts_s21_strncmp(),  ts_s21_strcpy(),  ts_s21_strncpy(),
-      ts_s21_strcspn(),  ts_s21_strerror(), ts_s21_strlen(),  ts_s21_strpbrk(),
-      ts_s21_strrchr(),  ts_s21_strspn(),   ts_s21_strstr(),  ts_s21_strtok(),
-      ts_s21_to_upper(), ts_s21_to_lower(), ts_s21_insert(),  NULL,
+      ts_s21_memchr(),
+      ts_s21_memcmp(),
+      ts_s21_memcpy(),
+      ts_s21_memmove(),
+      ts_s21_memset(),
+      ts_s21_strcat(),
+      ts_s21_strncat(),
+      ts_s21_strchr(),
+      ts_s21_strcmp(),
+      ts_s21_strncmp(),
+      ts_s21_strcpy(),
+      ts_s21_strncpy(),
+      ts_s21_strcspn(),
+      ts_s21_strerror(),
+      ts_s21_strlen(),
+      ts_s21_strpbrk(),
+      ts_s21_strrchr(),
+      ts_s21_strspn(),
+      ts_s21_strstr(),
+      ts_s21_strtok(),
+      ts_s21_to_upper(),
+      ts_s21_to_lower(),
+      ts_s21_insert(),
+      ts_s21_trim(),
+      NULL,
   };
 
   for (Suite **s = test_suites; *s != NULL; s++) {
