@@ -464,37 +464,33 @@ void *s21_to_lower(const char *str) {
 void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
   static char *arr = s21_NULL;
   char *buff = s21_NULL;
-  if (*str != '\0' && str != s21_NULL && *src != '\0' && src != s21_NULL) {
+  s21_size_t size = s21_strlen(src);
+  if (*str != '\0' && str != s21_NULL && *src != '\0' && src != s21_NULL &&
+      size >= start_index) {
     s21_size_t k = 0;
-    s21_size_t size = s21_strlen(src);
-    if (size <= start_index) {
+    buff =
+        (char *)calloc((s21_strlen(src) + s21_strlen(str) + 1), sizeof(char));
+    if (buff == s21_NULL) {
       arr = s21_NULL;
     } else {
-      buff =
-          (char *)calloc((s21_strlen(src) + s21_strlen(str) + 1), sizeof(char));
-      if (buff == s21_NULL || size < start_index) {
-        arr = s21_NULL;
-      } else {
-        for (s21_size_t i = 0; src[i] != '\0' || str[k] != '\0'; i++) {
-          if (i < start_index) {
-            buff[i] = src[i];
-          }
-          if (i == start_index) {
-            k = i;
-            for (s21_size_t j = 0; str[j] != '\0'; j++) {
-              buff[k] = str[j];
-              k++;
-            }
-          }
-          if (i >= start_index) {
-            buff[k] = src[i];
+      for (s21_size_t i = 0; src[i] != '\0' || str[k] != '\0'; i++) {
+        if (i < start_index) {
+          buff[i] = src[i];
+        }
+        if (i == start_index) {
+          k = i;
+          for (s21_size_t j = 0; str[j] != '\0'; j++) {
+            buff[k] = str[j];
             k++;
           }
         }
-        arr = buff;
+        if (i >= start_index) {
+          buff[k] = src[i];
+          k++;
+        }
       }
+      arr = buff;
     }
-
   } else {
     arr = s21_NULL;
   }

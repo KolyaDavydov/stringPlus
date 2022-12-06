@@ -212,12 +212,12 @@ void tc_s21_lower() {
 // <=== TEST CASES: s21_insert ===>
 
 void tc_s21_insert() {
-  char buff[100] = ". Hello /world/!!! ";
-  char arr[100] = ". / !";
-  s21_size_t i = 20;
+  char buff[100] = "qwe";
+  char arr[100] = "wqe";
+  s21_size_t i = 4;
   char *a = s21_insert(buff, arr, i);
-  printf("%s\n", a);
-  if (a != NULL) {
+  // printf("%s\n", a);
+  if (a != s21_NULL) {
     free(a);
   }
 }
@@ -253,9 +253,9 @@ int main(void) {
   tc_s21_strspn();
   tc_s21_strstr();
   tc_s21_strtok();
-  // tc_s21_upper();
-  // tc_s21_lower();
+  tc_s21_upper();
+  tc_s21_lower();
   tc_s21_insert();
-  // tc_s21_trim();
+  tc_s21_trim();
   return 0;
 }
