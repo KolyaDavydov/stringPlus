@@ -392,3 +392,44 @@ char *s21_strtok(char *str, const char *delim) {
 
   return str;
 }
+
+/**
+    21. Reads formatted input from a string.
+
+    Implemented by: Tania Kiara
+**/
+int s21_sscanf(const char *str, const char *format, ...) {
+  int result = -1;
+  int bytes_scanned = 0;
+
+  if (str != s21_NULL && format != s21_NULL && s21_strlen(str) != 0) {
+    va_list vl;
+    char *src = (char *)str;
+    char *fmt = (char *)format;
+
+    va_start(vl, format);
+    while (*(fmt)) {
+      if (is_spec_start(*fmt)) {
+        sp_t spec = {0};
+        fmt += parse_spec(&spec, fmt);
+        int res = exec_spec(&spec, &vl, src, bytes_scanned, &result);
+        src += res;
+        bytes_scanned += res;
+        while (is_space(*src)) {
+          ++src;
+          bytes_scanned++;
+        }
+      } else if (!skip_char(*fmt)) {
+        if (*fmt != *src) break;
+        fmt++;
+        src++;
+        bytes_scanned++;
+      } else {
+        fmt++;
+      }
+    }
+    va_end(vl);
+  }
+
+  return result;
+}

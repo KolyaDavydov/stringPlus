@@ -2,9 +2,9 @@ CC=gcc
 CFLAGS=-std=c11 -Wall -Werror -Wextra
 LDFLAGS=
 PROFILE_FLAGS=-fprofile-arcs -ftest-coverage
-LIBSOURCES=s21_string.c
+LIBSOURCES=s21_string.c s21_sscanf.c
 LIBOBJECTS=$(LIBSOURCES:.c=.o)
-GCOV_SOURCES=s21_string.c tests.c
+GCOV_SOURCES=s21_string.c s21_sscanf.c tests.c
 OS:=$(shell uname)
 
 ifeq ($(OS), Linux)
@@ -23,6 +23,10 @@ s21_string.a: $(LIBOBJECTS)
 .c.o:
 	$(CC) -c $(CFLAGS) $< -o $@
 
+test_telega: s21_string.a
+	gcc -std=c11 $(CHECKFLAGS) sscanf_tests.c s21_string.a -o unit-test
+	./unit-test
+
 test: s21_string.a
 	$(CC) $(CFLAGS) $(CHECKFLAGS) $(LDFLAGS) s21_string.a tests.c -o run
 	./run
@@ -34,9 +38,12 @@ gcov_report:
 	genhtml -o report report.info
 	open ./report/index.html
 
-vtests:
-	$(CC) $(CFLAGS) $(LDFLAGS) s21_string.c tests_valgrind.c -o vtests_run
+valgrind:
+	$(CC) $(CFLAGS) $(LDFLAGS) s21_string.c s21_sscanf.c tests_valgrind.c -o vtests_run
 	sh valgrind.sh ./vtests_run
+
+docker_test:
+	sh ./run.sh
 
 rebuild: clean all
 

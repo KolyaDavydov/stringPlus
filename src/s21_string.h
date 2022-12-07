@@ -3,6 +3,8 @@
 
 #include <stdarg.h>
 
+#include "s21_sscanf.h"
+
 /* <====== CONDITION AND LIST FOR s21_strerror DEPENDENCY ON OS======> */
 
 // difined - специальный оператор используемы для проверки

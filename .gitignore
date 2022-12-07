@@ -40,7 +40,6 @@ run
 gcov
 unit-test
 main
-test_telega.c
 
 # Debug files
 *.dSYM/
@@ -50,6 +49,8 @@ test_telega.c
 *.gcda
 *.gcno
 RESULT_VALGRIND.txt
+sscanf_tests.c
+test_telega.c
 main.c
 report
 report.info
@@ -62,4 +63,3 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-main.c
