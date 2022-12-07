@@ -55,6 +55,10 @@ clean:
 		*gcda \
 		*.gcov \
 		gcov_report.* \
+		*.dSYM \
+        RESULT_VALGRIND.txt \
+        unit-test \
+        vtests_run \
 		run \
 		gcov \
 		report/ \

@@ -415,8 +415,9 @@ int s21_sscanf(const char *str, const char *format, ...) {
         int res = exec_spec(&spec, &vl, src, bytes_scanned, &result);
         src += res;
         bytes_scanned += res;
-        while (is_space(*src)) {
-          ++src;
+        bool_t is_sp = is_space(*src);
+        while (is_sp) {
+          is_sp = is_space(++*src);
           bytes_scanned++;
         }
       } else if (!skip_char(*fmt)) {
