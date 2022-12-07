@@ -527,16 +527,22 @@ START_TEST(tc064_strtok) {
 END_TEST
 
 START_TEST(tc065_strtok) {
-  char str1[] = ". Hello /world/!!! ";
-  char str2[] = ". Hello /world/!!! ";
-  char del[] = ". ";
-
-  char *ch1 = strtok(str1, del);
-  char *ch2 = s21_strtok(str2, del);
-  while (ch1 != s21_NULL) {
-    ck_assert_pstr_eq(ch1, ch2);
-    ch1 = strtok(s21_NULL, del);
-    ch2 = s21_strtok(s21_NULL, del);
+  char str1[] = "++Aboba++Floppa_! Kotya===!Shleppa+++ A +";
+  char str2[] = "++Aboba++Floppa_! Kotya===!Shleppa+++ A +";
+  const char delims[] = "+_! =";
+  char *got = s21_strtok(str1, delims);
+  char *expected = strtok(str2, delims);
+  ck_assert_uint_eq(s21_strlen(got), s21_strlen(expected));
+  ck_assert_str_eq(got, expected);
+  while (got && expected) {
+    got = s21_strtok(s21_NULL, delims);
+    expected = strtok(s21_NULL, delims);
+    if (got || expected) {
+      ck_assert_str_eq(got, expected);
+    } else {
+      ck_assert_ptr_null(got);
+      ck_assert_ptr_null(expected);
+    }
   }
 }
 END_TEST
@@ -581,6 +587,7 @@ START_TEST(tc068_to_upper) {
   char str1[] = ". Hello /world/!!! ";
   char *ch1 = s21_to_upper(str1);
   ck_assert_pstr_eq(ch1, ". HELLO /WORLD/!!! ");
+  if (ch1) free(ch1);
 }
 END_TEST
 
@@ -588,6 +595,7 @@ START_TEST(tc069_to_upper) {
   char str1[] = "";
   char *ch1 = s21_to_upper(str1);
   ck_assert_pstr_eq(ch1, s21_NULL);
+  if (ch1) free(ch1);
 }
 END_TEST
 
@@ -597,6 +605,7 @@ START_TEST(tc070_to_lower) {
   char str1[] = ". HELLO /WORLD/!!! ";
   char *ch1 = s21_to_lower(str1);
   ck_assert_pstr_eq(ch1, ". hello /world/!!! ");
+  if (ch1) free(ch1);
 }
 END_TEST
 
@@ -604,6 +613,7 @@ START_TEST(tc071_to_lower) {
   char str1[] = "";
   char *ch1 = s21_to_lower(str1);
   ck_assert_pstr_eq(ch1, s21_NULL);
+  if (ch1) free(ch1);
 }
 END_TEST
 
@@ -615,6 +625,7 @@ START_TEST(tc072_insert) {
   s21_size_t i = 8;
   char *ch1 = s21_insert(str1, str2, i);
   ck_assert_pstr_eq(ch1, ". HELLO space/WORLD/!!! ");
+  if (ch1) free(ch1);
 }
 END_TEST
 
@@ -624,6 +635,7 @@ START_TEST(tc073_insert) {
   s21_size_t i = 3;
   char *ch1 = s21_insert(str1, str2, i);
   ck_assert_pstr_eq(ch1, "qwespace ");
+  if (ch1) free(ch1);
 }
 END_TEST
 
@@ -633,16 +645,18 @@ START_TEST(tc074_insert) {
   s21_size_t i = 3;
   char *ch1 = s21_insert(str1, str2, i);
   ck_assert_pstr_eq(ch1, s21_NULL);
+  if (ch1) free(ch1);
 }
 END_TEST
 
 // <=== TEST CASES: s21_trim ===>
 
 START_TEST(tc075_trim) {
-  char str1[] = ". HELLO /WORLD/!!! ";
-  char str2[] = ". /!";
-  char *ch1 = s21_trim(str1, str2);
-  ck_assert_pstr_eq(ch1, "HELLO /WORLD");
+  char src1[] = "     &#@\n\n\t Hello, World! *&#@ \n\t   ";
+  char trim_chars[] = " &#@\n\t";
+  char *psrc = s21_trim(src1, trim_chars);
+  ck_assert_pstr_eq(psrc, "Hello, World! *");
+  free(psrc);
 }
 END_TEST
 
@@ -651,6 +665,7 @@ START_TEST(tc076_trim) {
   char str2[] = ". /!";
   char *ch1 = s21_trim(str1, str2);
   ck_assert_pstr_eq(ch1, s21_NULL);
+  if (ch1) free(ch1);
 }
 END_TEST
 
@@ -659,6 +674,16 @@ START_TEST(tc077_trim) {
   char str2[] = "";
   char *ch1 = s21_trim(str1, str2);
   ck_assert_pstr_eq(ch1, s21_NULL);
+  if (ch1) free(ch1);
+}
+END_TEST
+
+START_TEST(tc078_trim) {
+  char str[] = "        abc         ";
+  char *trim_ch = s21_NULL;
+  char *got = s21_trim(str, trim_ch);
+  ck_assert_pstr_eq(got, trim_ch);
+  if (got) free(got);
 }
 END_TEST
 
@@ -953,6 +978,7 @@ Suite *ts_s21_trim() {
   tcase_add_test(test_case, tc075_trim);
   tcase_add_test(test_case, tc076_trim);
   tcase_add_test(test_case, tc077_trim);
+  tcase_add_test(test_case, tc078_trim);
   suite_add_tcase(suite, test_case);
 
   return suite;

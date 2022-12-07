@@ -261,26 +261,26 @@ char *s21_strtok(char *str, const char *delim);
 int s21_sscanf(const char *str, const char *format, ...);
 
 /**
-    1. Returns a copy of string (str) converted to uppercase. In case of any
+    23. Returns a copy of string (str) converted to uppercase. In case of any
     error, return NULL
 **/
 void *s21_to_upper(const char *str);
 
 /**
-    2. Returns a copy of string (str) converted to lowercase. In case of any
+    24. Returns a copy of string (str) converted to lowercase. In case of any
     error, return NULL
 **/
 void *s21_to_lower(const char *str);
 
 /**
-    3. Returns a new string in which a specified string (str) is inserted at a
+    25. Returns a new string in which a specified string (str) is inserted at a
     specified index position (start_index) in the given string (src). In case of
 any error, return NULL
 **/
 void *s21_insert(const char *src, const char *str, s21_size_t start_index);
 
 /**
-    4. Returns a new string in which all leading and trailing occurrences of a
+    26. Returns a new string in which all leading and trailing occurrences of a
     set of specified characters (trim_chars) from the given string (src) are
     removed. In case of any error, return NULL
 **/

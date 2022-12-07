@@ -196,7 +196,6 @@ void tc_s21_strtok() {
 void tc_s21_upper() {
   char buff[100] = "Spider Man love a bananasi 123 /// 0";
   char *a = s21_to_upper(buff);
-  printf("%s\n", a);
   free(a);
 }
 
@@ -205,7 +204,6 @@ void tc_s21_upper() {
 void tc_s21_lower() {
   char buff[100] = "SPIDER MAN LOVE A BANANASI /// 0";
   char *a = s21_to_lower(buff);
-  printf("%s\n", a);
   free(a);
 }
 
@@ -214,22 +212,20 @@ void tc_s21_lower() {
 void tc_s21_insert() {
   char buff[100] = "qwe";
   char arr[100] = "wqe";
-  s21_size_t i = 4;
+  s21_size_t i = 25;
   char *a = s21_insert(buff, arr, i);
-  // printf("%s\n", a);
-  if (a != s21_NULL) {
-    free(a);
-  }
+  printf("%s", a);
+  if (a) free(a);
 }
 
 // <=== TEST CASES: s21_trim ===>
 
 void tc_s21_trim() {
-  char buff[100] = ". Hello /world/!!! ";
-  char arr[100] = ". / !";
-  char *a = s21_trim(buff, arr);
-  printf("%s\n", a);
-  free(a);
+  char str[] = "        abc         ";
+  char *trim_ch = s21_NULL;
+  char *got = s21_trim(str, trim_ch);
+  printf("%s", got);
+  if (got) free(got);
 }
 
 int main(void) {

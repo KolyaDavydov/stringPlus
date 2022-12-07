@@ -393,7 +393,7 @@ char *s21_strtok(char *str, const char *delim) {
 }
 
 /**
-    1. Returns a copy of string (str) converted to uppercase. In case of any
+    23. Returns a copy of string (str) converted to uppercase. In case of any
     error, return NULL
 
     Implementes by: Aqua Nelida
@@ -402,7 +402,7 @@ char *s21_strtok(char *str, const char *delim) {
 void *s21_to_upper(const char *str) {
   static char *arr = s21_NULL;
   char *buff = s21_NULL;
-  if (*str != '\0' && str != s21_NULL) {
+  if (str != s21_NULL && *str != '\0') {
     buff = (char *)calloc((s21_strlen(str) + 1), sizeof(char));
     if (buff == NULL) {
       arr = s21_NULL;
@@ -423,7 +423,7 @@ void *s21_to_upper(const char *str) {
 }
 
 /**
-    2. Returns a copy of string (str) converted to lowercase. In case of any
+    24. Returns a copy of string (str) converted to lowercase. In case of any
     error, return NULL
 
     Implementes by: Aqua Nelida
@@ -432,7 +432,7 @@ void *s21_to_upper(const char *str) {
 void *s21_to_lower(const char *str) {
   static char *arr = s21_NULL;
   char *buff = s21_NULL;
-  if (*str != '\0' && str != s21_NULL) {
+  if (str != s21_NULL && *str != '\0') {
     buff = (char *)calloc((s21_strlen(str) + 1), sizeof(char));
     if (buff == s21_NULL) {
       arr = s21_NULL;
@@ -454,7 +454,7 @@ void *s21_to_lower(const char *str) {
 }
 
 /**
-    3. Returns a new string in which a specified string (str) is inserted at a
+    25. Returns a new string in which a specified string (str) is inserted at a
     specified index position (start_index) in the given string (src). In case of
     any error, return NULL
 
@@ -465,8 +465,9 @@ void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
   static char *arr = s21_NULL;
   char *buff = s21_NULL;
   s21_size_t size = s21_strlen(src);
-  if (*str != '\0' && str != s21_NULL && *src != '\0' && src != s21_NULL &&
-      size >= start_index) {
+  if (!str || !src || *str == '\0' || *src == '\0' || size < start_index)
+    arr = s21_NULL;
+  else {
     s21_size_t k = 0;
     buff =
         (char *)calloc((s21_strlen(src) + s21_strlen(str) + 1), sizeof(char));
@@ -491,15 +492,14 @@ void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
       }
       arr = buff;
     }
-  } else {
-    arr = s21_NULL;
   }
+
   return arr;
 }
 
 /**
-    4. Returns a new string in which all leading and trailing occurrences of a
-    set of specified characters (trim_chars) from the given string (src) are
+    26. Returns a new string in which all leading and trailing occurrences of
+a set of specified characters (trim_chars) from the given string (src) are
     removed. In case of any error, return NULL
 
     Implementes by: Aqua Nelida
@@ -512,7 +512,7 @@ void *s21_trim(const char *src, const char *trim_chars) {
   int flag = 0;
   static char *arr = s21_NULL;
   char *buff = s21_NULL;
-  if (*src == '\0' || *trim_chars == '\0')
+  if (!src || !trim_chars || *src == '\0' || *trim_chars == '\0')
     arr = s21_NULL;
   else {
     for (; s21_strchr(trim_chars, ch) && *src != '\0'; i++) ch = *++src;
@@ -529,12 +529,13 @@ void *s21_trim(const char *src, const char *trim_chars) {
           flag = 1;
         j--;
       }
-      if (*buff == '\0') {
+      if (*buff == '\0' || buff == s21_NULL) {
         arr = s21_NULL;
       } else {
         arr = buff;
       }
     }
   }
+
   return arr;
 }
