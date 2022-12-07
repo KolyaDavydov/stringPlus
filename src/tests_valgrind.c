@@ -28,9 +28,15 @@ void tc_s21_memmove() {
   s21_memmove(s21_buf + 5, s21_buf, n3);
 }
 
+void tc_s21_sscanf() {
+  char ch = 0;
+  s21_sscanf("School 21", "%d", &ch);
+}
+
 int main(void) {
   tc_s21_memcmp();
   tc_s21_memcpy();
   tc_s21_memmove();
+  tc_s21_sscanf();
   return 0;
 }
