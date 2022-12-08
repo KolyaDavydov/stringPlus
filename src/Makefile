@@ -2,9 +2,9 @@ CC=gcc
 CFLAGS=-std=c11 -Wall -Werror -Wextra
 LDFLAGS=
 PROFILE_FLAGS=-fprofile-arcs -ftest-coverage
-LIBSOURCES=s21_string.c s21_sscanf.c
+LIBSOURCES=s21_string.c s21_sscanf.c s21_sprintf.c
 LIBOBJECTS=$(LIBSOURCES:.c=.o)
-GCOV_SOURCES=s21_string.c s21_sscanf.c tests.c
+GCOV_SOURCES=s21_string.c s21_sscanf.c s21_sprintf.c tests.c
 OS:=$(shell uname)
 
 ifeq ($(OS), Linux)

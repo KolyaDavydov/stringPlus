@@ -3,7 +3,9 @@
 
 #include <stdarg.h>
 
+#include "s21_sprintf.h"
 #include "s21_sscanf.h"
+#include "utils.h"
 
 /* <====== CONDITION AND LIST FOR s21_strerror DEPENDENCY ON OS======> */
 
@@ -257,7 +259,14 @@ char *s21_strstr(const char *haystack, const char *needle);
 char *s21_strtok(char *str, const char *delim);
 
 /**
-    21. Reads formatted input from a string.
+    21. Sends formatted output to a string pointed to, by str.
+
+    Implemented by: Almeta Terry
+**/
+int s21_sprintf(char *str, const char *format, ...);
+
+/**
+    22. Reads formatted input from a string.
 **/
 int s21_sscanf(const char *str, const char *format, ...);
 
