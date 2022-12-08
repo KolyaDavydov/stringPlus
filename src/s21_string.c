@@ -348,47 +348,30 @@ char *s21_strstr(const char *haystack, const char *needle) {
 
     Implementes by: Aqua Nelida
 **/
+
 char *s21_strtok(char *str, const char *delim) {
   static char *arr = s21_NULL;
-  int flag = 0;
-  int check = 0;
-  int ch = 0;
 
-  if (!str) {
-    if (arr) {
-      str = arr;
-      flag = 1;
-      ch = *str;
-    } else {
-      arr = s21_NULL;
-      flag = 0;
-    }
+  if (str == s21_NULL) {
+    if (arr != s21_NULL) str = arr;
   } else {
-    if (*str == '\0') str = s21_NULL;
-    if (*delim == '\0') check = 1;
-    if (!str || *delim == '\0') {
-      flag = 0;
-    } else {
-      flag = 1;
-      ch = *str;
-      if (s21_strpbrk(str, delim) == s21_NULL) flag = 0;
-    }
+    arr = str;
   }
 
-  while (s21_strchr(delim, ch) && flag != 0) {
-    if ((ch = *++str) == '\0') {
-      flag = 0;
-    }
-  }
-
-  if (flag != 0) {
-    arr = str + s21_strcspn(str, delim);
+  if (arr != s21_NULL && *str != '\0') {
+    str = arr + s21_strspn(str, delim);  // указатель на строку
+    arr = str + s21_strcspn(str, delim);  // указатель на разделитель
     if (*arr != '\0') {
       *arr = '\0';
+      arr++;  // тут смещаем указатель на 1 и разделяем;
     }
-  } else if ((check != 1 && ch == 0) || *str == '\0') {
-    str = 0;
+    if (str == arr) {
+      str = s21_NULL;
+    }
+  } else {
+    str = s21_NULL;
   }
+
   return str;
 }
 
@@ -529,11 +512,10 @@ void *s21_trim(const char *src, const char *trim_chars) {
           flag = 1;
         j--;
       }
-      if (*buff == '\0' || buff == s21_NULL) {
+      if (*buff == '\0' || buff == s21_NULL)
         arr = s21_NULL;
-      } else {
+      else
         arr = buff;
-      }
     }
   }
 

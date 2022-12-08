@@ -581,6 +581,48 @@ START_TEST(tc067_strtok) {
 }
 END_TEST
 
+START_TEST(tc068_strtok) {
+  char str1[] = "     Aboba__+ Flo!ppa_   Roba+";
+  char str2[] = "     Aboba__+ Flo!ppa_   Roba+";
+  const char delims[] = "+_! =";
+  char *got = s21_strtok(str1, delims);
+  char *expected = strtok(str2, delims);
+  ck_assert_uint_eq(s21_strlen(got), s21_strlen(expected));
+  ck_assert_str_eq(got, expected);
+  while (got || expected) {
+    got = s21_strtok(s21_NULL, delims);
+    expected = strtok(s21_NULL, delims);
+    if (got || expected) {
+      ck_assert_str_eq(got, expected);
+    } else {
+      ck_assert_ptr_null(got);
+      ck_assert_ptr_null(expected);
+    }
+  }
+}
+END_TEST
+
+START_TEST(tc069_strtok) {
+  char str1[] = "!Stepa__ !M!ish a____Anton+An!!!drey";
+  char str2[] = "!Stepa__ !M!ish a____Anton+An!!!drey";
+  const char delims[] = "+_! =";
+  char *got = s21_strtok(str1, delims);
+  char *expected = strtok(str2, delims);
+  ck_assert_uint_eq(s21_strlen(got), s21_strlen(expected));
+  ck_assert_str_eq(got, expected);
+  while (got || expected) {
+    got = s21_strtok(s21_NULL, delims);
+    expected = strtok(s21_NULL, delims);
+    if (got || expected) {
+      ck_assert_str_eq(got, expected);
+    } else {
+      ck_assert_ptr_null(got);
+      ck_assert_ptr_null(expected);
+    }
+  }
+}
+END_TEST
+
 // <=== TEST CASES: s21_to_upper ===>
 
 START_TEST(tc068_to_upper) {
@@ -932,6 +974,8 @@ Suite *ts_s21_strtok() {
   tcase_add_test(test_case, tc065_strtok);
   tcase_add_test(test_case, tc066_strtok);
   tcase_add_test(test_case, tc067_strtok);
+  tcase_add_test(test_case, tc068_strtok);
+  tcase_add_test(test_case, tc069_strtok);
   suite_add_tcase(suite, test_case);
 
   return suite;

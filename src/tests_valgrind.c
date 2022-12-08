@@ -196,7 +196,7 @@ void tc_s21_strtok() {
 void tc_s21_upper() {
   char buff[100] = "Spider Man love a bananasi 123 /// 0";
   char *a = s21_to_upper(buff);
-  free(a);
+  if (a) free(a);
 }
 
 // <=== TEST CASES: s21_to_lower ===>
@@ -204,7 +204,7 @@ void tc_s21_upper() {
 void tc_s21_lower() {
   char buff[100] = "SPIDER MAN LOVE A BANANASI /// 0";
   char *a = s21_to_lower(buff);
-  free(a);
+  if (a) free(a);
 }
 
 // <=== TEST CASES: s21_insert ===>
@@ -225,7 +225,7 @@ void tc_s21_trim() {
   char *trim_ch = s21_NULL;
   char *got = s21_trim(str, trim_ch);
   printf("%s", got);
-  if (got) free(got);
+  // if (got) free(got);
 }
 
 int main(void) {
