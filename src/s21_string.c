@@ -327,19 +327,25 @@ s21_size_t s21_strspn(const char *str1, const char *str2) {
     19. Finds the first occurrence of the entire string needle (not including
     the terminating null character) which appears in the string haystack.
 
-    Implementes by: Almeta Terry
+    Implementes by: Tania Kiara
 **/
 char *s21_strstr(const char *haystack, const char *needle) {
-  s21_size_t i = 0, j = 0;
   char *ptr = s21_NULL;
-  if (needle[0] == '\0') ptr = (char *)haystack;
-  while (haystack[i] != '\0') {
-    while (haystack[i + j] != '\0' && haystack[i + j] == needle[j]) {
-      if (needle[j + 1] == '\0') ptr = (char *)(haystack + i);
-      ++j;
+
+  if (needle != s21_NULL && *needle == 0) ptr = (char *)haystack;
+  if (haystack != s21_NULL && needle != s21_NULL && *needle != 0) {
+    char *hs = (char *)haystack, *nl = (char *)needle;
+    for (; *hs && ptr == s21_NULL; hs++) {
+      if (*hs != *nl) continue;
+      char *match_entry = hs, *tmp = hs;
+      while (1) {
+        if (*nl == 0) ptr = match_entry;
+        if (*tmp++ != *nl++) break;
+      }
+      nl = (char *)needle;
     }
-    ++i;
   }
+
   return ptr;
 }
 
@@ -394,7 +400,52 @@ char *s21_strtok(char *str, const char *delim) {
 }
 
 /**
-    21. Reads formatted input from a string.
+    21. Sends formatted output to a string pointed to, by str.
+
+    Implemented by: Almeta Terry
+**/
+int s21_sprintf(char *str, const char *format, ...) {
+  va_list vl;  // указатель va_list (для функций с переменным числом параметров)
+  va_start(vl,
+           format);  // устанавливаем указатель на второй параметр нашей функции
+
+  char *begin_of_str = str;  // хранит начало выводимой строки
+
+  // проход по всей строке 'format' пока не дойдем до конца
+  while (*format != '\0') {
+    sprint_t spec = {
+        '\0'};  // наша структура - будем заносить сюда спецификаторы все
+    int ptr_format = 0;  // движение указателя по строке 'format'
+    if (*format != '%') {
+      *str++ = *format++;
+      continue;
+    } else {
+      format++;
+      ptr_format = parser(&spec, format, vl);
+    }
+
+    format += ptr_format;
+
+    char tmp_str[512] = {'\0'};
+
+    transfer_to_str(spec, vl, tmp_str);
+
+    for (s21_size_t i = 0; i < s21_strlen(tmp_str); i++, str++)
+      *str = tmp_str[i];
+
+    if (spec.sp == n) {
+      int *str_begin_to_nspec = va_arg(vl, int *);
+      *str_begin_to_nspec = str - begin_of_str;
+    }
+  }
+
+  *str = '\0';
+  va_end(vl);
+  return str - begin_of_str;
+}
+
+/**
+    22. Reads formatted input from a string.
 
     Implemented by: Tania Kiara
 **/
@@ -410,7 +461,7 @@ int s21_sscanf(const char *str, const char *format, ...) {
     va_start(vl, format);
     while (*(fmt)) {
       if (is_spec_start(*fmt)) {
-        sp_t spec = {0};
+        sscan_t spec = {0};
         fmt += parse_spec(&spec, fmt);
         int res = exec_spec(&spec, &vl, src, bytes_scanned, &result);
         src += res;

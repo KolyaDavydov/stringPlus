@@ -4,8 +4,7 @@
 #include <math.h>
 #include <stdlib.h>
 
-#define TRUE 1
-#define FALSE 0
+#include "utils.h"
 
 #define PUSHREG 0xfa
 #define PUSHOCT 0xfb
@@ -25,58 +24,28 @@
   TYPE *digit = va_arg(*VA_LIST, TYPE *); \
   *digit = (TYPE)htod(INPUT)
 
-typedef int bool_t;
-
-typedef enum length {
-  h,
-  hh,
-  l,
-  ll,
-  L,
-  nil,
-} len_t;
-
-typedef enum specifier {
-  c,
-  d,
-  i,
-  e,
-  E,
-  f,
-  g,
-  G,
-  o,
-  s,
-  u,
-  x,
-  X,
-  p,
-  n,
-  spec_ch,
-} spec_t;
-
-typedef struct spec_proto {
+typedef struct spec_proto_scan {
   bool_t suppress;
   int width;
   len_t length;
   spec_t sp;
-} sp_t;
+} sscan_t;
 
 /* <== Specifier funtions ==> */
 
 int is_spec_start(char);
-int parse_spec(sp_t *, char *);
-int exec_spec(sp_t *, va_list *, char *, int, int *);
+int parse_spec(sscan_t *, char *);
+int exec_spec(sscan_t *, va_list *, char *, int, int *);
 
 /* <== Arg setters funtions ==> */
 
-int set_char(va_list *, sp_t *, char, int *);
-int set_int(va_list *, sp_t *, char *, int *, int, bool_t);
-int set_float(va_list *, sp_t *, char *, int *, int);
-int set_string(va_list *, sp_t *, char *, int *);
-int set_hex(va_list *, sp_t *, char *, int *, int);
-int set_pointer(va_list *, sp_t *, char *, int *, int);
-void set_bscan(va_list *, sp_t *, int, int *);
+int set_char(va_list *, sscan_t *, char, int *);
+int set_int(va_list *, sscan_t *, char *, int *, int, bool_t);
+int set_float(va_list *, sscan_t *, char *, int *, int);
+int set_string(va_list *, sscan_t *, char *, int *);
+int set_hex(va_list *, sscan_t *, char *, int *, int);
+int set_pointer(va_list *, sscan_t *, char *, int *, int);
+void set_bscan(va_list *, sscan_t *, int, int *);
 int handle_spec_char(const char *, int *);
 
 /* <== Utils funtions ==> */

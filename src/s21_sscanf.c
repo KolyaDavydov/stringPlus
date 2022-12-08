@@ -2,7 +2,7 @@
 
 int is_spec_start(char ch) { return ch == '%'; }
 
-int parse_spec(sp_t *spec, char *fmt) {
+int parse_spec(sscan_t *spec, char *fmt) {
   int bytes_readed = 1;
   char width[16] = {0};
 
@@ -102,7 +102,7 @@ int parse_spec(sp_t *spec, char *fmt) {
       spec->sp = n;
       break;
     case '%':
-      spec->sp = spec_ch;
+      spec->sp = percent;
       break;
   }
 
@@ -110,7 +110,7 @@ int parse_spec(sp_t *spec, char *fmt) {
   return bytes_readed;
 }
 
-int exec_spec(sp_t *spec, va_list *vl, char *str, int bytes_scanned,
+int exec_spec(sscan_t *spec, va_list *vl, char *str, int bytes_scanned,
               int *result) {
   int res = 0, skipped = 0;
   if (spec->sp != c) skipped = skip_whitespace(&str);
@@ -161,7 +161,7 @@ int exec_spec(sp_t *spec, va_list *vl, char *str, int bytes_scanned,
       set_bscan(vl, spec, bytes_scanned, result);
       break;
       break;
-    case spec_ch:
+    case percent:
       res = handle_spec_char(str, result);
       break;
   }
@@ -169,7 +169,7 @@ int exec_spec(sp_t *spec, va_list *vl, char *str, int bytes_scanned,
   return res + skipped;
 }
 
-int set_char(va_list *vl, sp_t *spec, char ch, int *result) {
+int set_char(va_list *vl, sscan_t *spec, char ch, int *result) {
   if (!spec->suppress) {
     if (spec->length == l) {
       SET_VALUE(wchar_t, ch, vl);
@@ -184,7 +184,7 @@ int set_char(va_list *vl, sp_t *spec, char ch, int *result) {
   return 1;
 }
 
-int set_int(va_list *vl, sp_t *spec, char *str, int *result, int mode,
+int set_int(va_list *vl, sscan_t *spec, char *str, int *result, int mode,
             bool_t is_signed) {
   char buf[32] = {0};
   if (s21_strlen(str) == 0) return 0;
@@ -238,7 +238,7 @@ int set_int(va_list *vl, sp_t *spec, char *str, int *result, int mode,
   return digits;
 }
 
-int set_float(va_list *vl, sp_t *spec, char *str, int *result, int mode) {
+int set_float(va_list *vl, sscan_t *spec, char *str, int *result, int mode) {
   char buf[32] = {0};
   int digits = get_digit_substr(buf, str, 32, spec->width, mode);
   if (digits == -1) {
@@ -270,7 +270,7 @@ int set_float(va_list *vl, sp_t *spec, char *str, int *result, int mode) {
   return digits;
 }
 
-int set_string(va_list *vl, sp_t *spec, char *str, int *result) {
+int set_string(va_list *vl, sscan_t *spec, char *str, int *result) {
   int bytes_w = 0;
   for (; *str && skip_char(*str); str++) bytes_w++;
 
@@ -303,7 +303,7 @@ int set_string(va_list *vl, sp_t *spec, char *str, int *result) {
 
 #include <stdio.h>
 
-int set_hex(va_list *vl, sp_t *spec, char *str, int *result, int mode) {
+int set_hex(va_list *vl, sscan_t *spec, char *str, int *result, int mode) {
   char buf[32] = {0};
   int digits = get_digit_substr(buf, str, 32, spec->width, mode);
   if (digits == -1) {
@@ -332,7 +332,7 @@ int set_hex(va_list *vl, sp_t *spec, char *str, int *result, int mode) {
   return digits;
 }
 
-int set_pointer(va_list *vl, sp_t *spec, char *str, int *result, int mode) {
+int set_pointer(va_list *vl, sscan_t *spec, char *str, int *result, int mode) {
   char buf[32] = {0};
   int digits = get_digit_substr(buf, str, 32, spec->width, mode);
   if (digits == -1) {
@@ -350,7 +350,7 @@ int set_pointer(va_list *vl, sp_t *spec, char *str, int *result, int mode) {
   return digits;
 }
 
-void set_bscan(va_list *vl, sp_t *spec, int bscanned, int *result) {
+void set_bscan(va_list *vl, sscan_t *spec, int bscanned, int *result) {
   if (*result < 0) *result = 0;
   switch (spec->length) {
     case h: {
