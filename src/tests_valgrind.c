@@ -1396,10 +1396,521 @@ void tc_s21_sscanf() {
   }
 }
 
+void makefreeArr(char *str1, char *str2, int arrsize) {
+  for (int i = 0; i < arrsize; i++) {
+    str1[i] = 0;
+    str2[i] = 0;
+  }
+}
+
+void tc_s21_sprintf() {
+  {
+    char str1[100] = {'\0'};
+    char str2[100] = {'\0'};
+
+    sprintf(str1, "%s", "Hello");
+    s21_sprintf(str2, "%s", "Hello");
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%.1s", "Hello");
+    s21_sprintf(str2, "%.1s", "Hello");
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%7s", "Hello");
+    s21_sprintf(str2, "%7s", "Hello");
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%-10s", "Hello");
+    s21_sprintf(str2, "%-10s", "Hello");
+
+    makefreeArr(str1, str2, 100);
+  }
+
+  {
+    char str1[100] = {'\0'};
+    char str2[100] = {'\0'};
+
+    sprintf(str1, "%1c %c", 'H', 'z');
+    s21_sprintf(str2, "%1c %c", 'H', 'z');
+
+    makefreeArr(str1, str2, 50);
+
+    sprintf(str1, "%10c %2c", 'H', 'z');
+    s21_sprintf(str2, "%10c %2c", 'H', 'z');
+
+    makefreeArr(str1, str2, 50);
+
+    sprintf(str1, "%-1c %-c", 'H', 'z');
+    s21_sprintf(str2, "%-1c %-c", 'H', 'z');
+
+    makefreeArr(str1, str2, 50);
+  }
+
+  {
+    char str1[255] = {'\0'};
+    char str2[255] = {'\0'};
+
+    sprintf(str1, "%12.16f %10.17f", 100000000000.14, 100000000000.14);
+    s21_sprintf(str2, "%12.16f %10.17f", 100000000000.14, 100000000000.14);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%f", 100000.4);
+    s21_sprintf(str2, "%f", 100000.4);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%.16f", -100000.4);
+    s21_sprintf(str2, "%.16f", -100000.4);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%-1f", 100000.4);
+    s21_sprintf(str2, "%-1f", 100000.4);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%f", -100000.4);
+    s21_sprintf(str2, "%f", -100000.4);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%+f %+f", -100000.4, 1000.231);
+    s21_sprintf(str2, "%+f %+f", -100000.4, 1000.231);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%-20f", 100000.4);
+    s21_sprintf(str2, "%-20f", 100000.4);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%-+20f", 100000.4);
+    s21_sprintf(str2, "%-+20f", 100000.4);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%-20f", -100000.4);
+    s21_sprintf(str2, "%-20f", -100000.4);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%+20f", 100000.4);
+    s21_sprintf(str2, "%+20f", 100000.4);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%+20f", -100000.4);
+    s21_sprintf(str2, "%+20f", -100000.4);
+
+    makefreeArr(str1, str2, 100);
+
+    float key = 10000;
+    sprintf(str1, "%+20f", key);
+    s21_sprintf(str2, "%+20f", key);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str2, "%+34.10f%.10i%15.1d%25.10s", 25.3456, 1234, 4567,
+            "HELLOMYDEARFRIEND");
+    s21_sprintf(str1, "%+34.10f%.10i%15.1d%25.10s", 25.3456, 1234, 4567,
+                "HELLOMYDEARFRIEND");
+
+    makefreeArr(str1, str2, 255);
+  }
+
+  {
+    char str1[100] = {'\0'};
+    char str2[100] = {'\0'};
+
+    sprintf(str1, "% 010d", 4);
+    s21_sprintf(str2, "% 010d", 4);
+
+    makefreeArr(str1, str2, 30);
+
+    sprintf(str1, "% 010d", -4);
+    s21_sprintf(str2, "% 010d", -4);
+
+    makefreeArr(str1, str2, 30);
+
+    sprintf(str1, "%-+10d", 4);
+    s21_sprintf(str2, "%-+10d", 4);
+
+    makefreeArr(str1, str2, 30);
+
+    sprintf(str1, "%.d", 4);
+    s21_sprintf(str2, "%.d", 4);
+
+    makefreeArr(str1, str2, 30);
+
+    sprintf(str1, "%.10d%%\n", 4);
+    s21_sprintf(str2, "%.10d%%\n", 4);
+
+    makefreeArr(str1, str2, 30);
+
+    sprintf(str1, "%d%%\n", -4);
+    s21_sprintf(str2, "%d%%\n", -4);
+
+    makefreeArr(str1, str2, 30);
+
+    sprintf(str1, "%-+10d%%\n", 4);
+    s21_sprintf(str2, "%-+10d%%\n", 4);
+
+    makefreeArr(str1, str2, 30);
+
+    sprintf(str1, "%-10d%%\n", -4);
+    s21_sprintf(str2, "%-10d%%\n", -4);
+
+    makefreeArr(str1, str2, 30);
+
+    sprintf(str1, "%+10d%%\n", 4);
+    s21_sprintf(str2, "%+10d%%\n", 4);
+
+    makefreeArr(str1, str2, 30);
+
+    sprintf(str1, "%+10d%%\n", -4);
+    s21_sprintf(str2, "%+10d%%\n", -4);
+
+    makefreeArr(str1, str2, 30);
+
+    sprintf(str1, "%+10.5d%%\n", -4);
+    s21_sprintf(str2, "%+10.5d%%\n", -4);
+
+    makefreeArr(str1, str2, 30);
+
+    long int var_long = 100;
+    sprintf(str1, "%ld%%\n", var_long);
+    s21_sprintf(str2, "%ld%%\n", var_long);
+
+    makefreeArr(str1, str2, 30);
+
+    short var_short = 123;
+    sprintf(str1, "%hd%%\n", var_short);
+    s21_sprintf(str2, "%hd%%\n", var_short);
+
+    makefreeArr(str1, str2, 30);
+
+    sprintf(str2, "%+-25.3d%25.15d%10.f%15d", 252, 243, 256.34, 15);
+    s21_sprintf(str1, "%+-25.3d%25.15d%10.f%15d", 252, 243, 256.34, 15);
+
+    makefreeArr(str1, str2, 150);
+
+    sprintf(str1, "%.i", 4);
+    s21_sprintf(str2, "%.i", 4);
+
+    makefreeArr(str1, str2, 30);
+
+    sprintf(str1, "%.10i%%\n", 4);
+    s21_sprintf(str2, "%.10i%%\n", 4);
+
+    makefreeArr(str1, str2, 30);
+
+    sprintf(str1, "% i%%\n", -4);
+    s21_sprintf(str2, "% i%%\n", -4);
+
+    makefreeArr(str1, str2, 30);
+
+    sprintf(str1, "%-+10i%%\n", 4);
+    s21_sprintf(str2, "%-+10i%%\n", 4);
+
+    makefreeArr(str1, str2, 30);
+
+    sprintf(str1, "%-10i%%\n", -4);
+    s21_sprintf(str2, "%-10i%%\n", -4);
+
+    makefreeArr(str1, str2, 30);
+
+    sprintf(str1, "%+10i\n", 4);
+    s21_sprintf(str2, "%+10i\n", 4);
+
+    makefreeArr(str1, str2, 30);
+
+    sprintf(str1, "%+10i\n", -4);
+    s21_sprintf(str2, "%+10i\n", -4);
+
+    makefreeArr(str1, str2, 30);
+
+    sprintf(str1, "%+10.5i\n", -4);
+    s21_sprintf(str2, "%+10.5i\n", -4);
+
+    makefreeArr(str1, str2, 30);
+
+    sprintf(str1, "%li%%\n", var_long);
+    s21_sprintf(str2, "%li%%\n", var_long);
+
+    makefreeArr(str1, str2, 30);
+  }
+
+  {
+    char str1[100] = {'\0'};
+    char str2[100] = {'\0'};
+
+    sprintf(str1, "%2.5u%%\n", 4);
+    s21_sprintf(str2, "%2.5u%%\n", 4);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%2.5u%%\n", -4);
+    s21_sprintf(str2, "%2.5u%%\n", -4);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%10.5u%%\n", 4);
+    s21_sprintf(str2, "%10.5u%%\n", 4);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%-10u%%\n", 421);
+    s21_sprintf(str2, "%-10u%%\n", 421);
+
+    makefreeArr(str1, str2, 100);
+
+    short unsigned key_h = 421;
+    sprintf(str1, "%-10hu%%\n", key_h);
+    s21_sprintf(str2, "%-10hu%%\n", key_h);
+
+    makefreeArr(str1, str2, 100);
+
+    long unsigned key_l = 421;
+    sprintf(str1, "%-10lu%%\n", key_l);
+    s21_sprintf(str2, "%-10lu%%\n", key_l);
+
+    makefreeArr(str1, str2, 100);
+    char c[255] = {'\0'}, d[255] = {'\0'};
+    s21_sprintf(c, "%10.s %10ls %-10ls %-3ls %.ls %.3ls %.10ls", "hello",
+                L"hello", L"hello", L"hello", L"hello", L"hello", L"hello");
+    sprintf(d, "%10.s %10ls %-10ls %-3ls %.ls %.3ls %.10ls", "hello", L"hello",
+            L"hello", L"hello", L"hello", L"hello", L"hello");
+
+    makefreeArr(c, d, 100);
+  }
+
+  {
+    char str1[100] = {'\0'};
+    char str2[100] = {'\0'};
+    long double val = 15.35;
+    long double val1 = 15.0000035;
+    long double val2 = 15.00000000000000035;
+    long double val3 = -15.35;
+
+    sprintf(str1, "%#.16Le\n", val);
+    s21_sprintf(str2, "%#.16Le\n", val);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%.0Le\n", val);
+    s21_sprintf(str2, "%.0Le\n", val);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%.Le\n", val1);
+    s21_sprintf(str2, "%.Le\n", val1);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%.15Le\n", val2);
+    s21_sprintf(str2, "%.15Le\n", val2);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%10.16Le\n", val3);
+    s21_sprintf(str2, "%10.16Le\n", val3);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%+10.6Le\n", val3);
+    s21_sprintf(str2, "%+10.6Le\n", val3);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%-+*.*e\n", 10, 1, 15.01);
+    s21_sprintf(str2, "%-+*.*e\n", 10, 1, 15.01);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%.16LE\n", val);
+    s21_sprintf(str2, "%.16LE\n", val);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%.0LE\n", val);
+    s21_sprintf(str2, "%.0LE\n", val);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%.LE\n", val1);
+    s21_sprintf(str2, "%.LE\n", val1);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%.15LE\n", val2);
+    s21_sprintf(str2, "%.15LE\n", val2);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%10.16LE\n", val3);
+    s21_sprintf(str2, "%10.16LE\n", val3);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%+10.6LE\n", val3);
+    s21_sprintf(str2, "%+10.6LE\n", val3);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%-+#*.*E\n", 10, 1, 15.01);
+    s21_sprintf(str2, "%-+#*.*E\n", 10, 1, 15.01);
+
+    makefreeArr(str1, str2, 100);
+  }
+
+  {
+    char str1[100] = {'\0'};
+    char str2[100] = {'\0'};
+
+    sprintf(str1, "%#2.5o%%\n", 4);
+    s21_sprintf(str2, "%#2.5o%%\n", 4);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%#2.5o%%\n", -4);
+    s21_sprintf(str2, "%#2.5o%%\n", -4);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%10.5o%%\n", 4);
+    s21_sprintf(str2, "%10.5o%%\n", 4);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%-10o%%\n", 421);
+    s21_sprintf(str2, "%-10o%%\n", 421);
+
+    makefreeArr(str1, str2, 100);
+
+    short unsigned key_h = 421;
+    sprintf(str1, "%-10ho%%\n", key_h);
+    s21_sprintf(str2, "%-10ho%%\n", key_h);
+
+    makefreeArr(str1, str2, 100);
+
+    long unsigned key_l = 421;
+    sprintf(str1, "%#-10lo%%\n", key_l);
+    s21_sprintf(str2, "%-#10lo%%\n", key_l);
+
+    makefreeArr(str1, str2, 100);
+  }
+
+  {
+    char str1[100] = {'\0'};
+    char str2[100] = {'\0'};
+
+    sprintf(str1, "%2.5x%%\n", 4);
+    s21_sprintf(str2, "%2.5x%%\n", 4);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%2.5x%%\n", -4);
+    s21_sprintf(str2, "%2.5x%%\n", -4);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%10.5x%%\n", 4);
+    s21_sprintf(str2, "%10.5x%%\n", 4);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%-10x%%\n", 421);
+    s21_sprintf(str2, "%-10x%%\n", 421);
+
+    makefreeArr(str1, str2, 100);
+
+    short unsigned key_h = 421;
+    sprintf(str1, "%-10hx%%\n", key_h);
+    s21_sprintf(str2, "%-10hx%%\n", key_h);
+
+    makefreeArr(str1, str2, 100);
+
+    long unsigned key_l = 421;
+    sprintf(str1, "%#-10lx%%\n", key_l);
+    s21_sprintf(str2, "%-#10lx%%\n", key_l);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%2.5X%%\n", 4);
+    s21_sprintf(str2, "%2.5X%%\n", 4);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%2.5X%%\n", -4);
+    s21_sprintf(str2, "%2.5X%%\n", -4);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%10.5X%%\n", 4);
+    s21_sprintf(str2, "%10.5X%%\n", 4);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%#-10X%%\n", 421);
+    s21_sprintf(str2, "%#-10X%%\n", 421);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%-10hX%%\n", key_h);
+    s21_sprintf(str2, "%-10hX%%\n", key_h);
+
+    makefreeArr(str1, str2, 100);
+
+    sprintf(str1, "%-10lX%%\n", key_l);
+    s21_sprintf(str2, "%-10lX%%\n", key_l);
+
+    makefreeArr(str1, str2, 100);
+  }
+
+  {
+    char str1[100] = {'\0'};
+    char str2[100] = {'\0'};
+
+    char *format = "%p";
+
+    s21_sprintf(str2, format, format);
+
+    makefreeArr(str1, str2, 100);
+
+    format = "%15p";
+
+    s21_sprintf(str2, format, format);
+
+    makefreeArr(str1, str2, 100);
+
+    format = "%.5p";
+
+    s21_sprintf(str2, format, format);
+
+    makefreeArr(str1, str2, 100);
+  }
+
+  {
+    char str1[100] = {'\0'};
+    char str2[100] = {'\0'};
+    int ptr = 0;
+    char *format = "Hello\n asd%n\n";
+
+    s21_sprintf(str2, format, &ptr);
+
+    makefreeArr(str1, str2, 100);
+  }
+}
+
 int main(void) {
   tc_s21_memcmp();
   tc_s21_memcpy();
   tc_s21_memmove();
   tc_s21_sscanf();
+  tc_s21_sprintf();
   return 0;
 }
