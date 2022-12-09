@@ -567,7 +567,7 @@ END_TEST
 START_TEST(tc067_strtok) {
   char str1[] = ". Hello /world/!!! ";
   char str2[] = ". Hello /world/!!! ";
-  char del[] = ". ";
+  char del[] = ". !";
 
   char *ch1 = strtok(str1, del);
   char *ch2 = s21_strtok(str2, del);
@@ -623,9 +623,31 @@ START_TEST(tc069_strtok) {
 }
 END_TEST
 
+START_TEST(tc070_strtok) {
+  char str1[] = "!       A!B!C!D!E!!F!!G";
+  char str2[] = "!       A!B!C!D!E!!F!!G";
+  const char delims[] = "+_! =";
+  char *got = s21_strtok(str1, delims);
+  char *expected = strtok(str2, delims);
+  ck_assert_uint_eq(s21_strlen(got), s21_strlen(expected));
+  ck_assert_str_eq(got, expected);
+  while (got || expected) {
+    got = s21_strtok(s21_NULL, delims);
+    expected = strtok(s21_NULL, delims);
+    if (got || expected) {
+      ck_assert_str_eq(got, expected);
+      ck_assert_uint_eq(s21_strlen(got), s21_strlen(expected));
+    } else {
+      ck_assert_ptr_null(got);
+      ck_assert_ptr_null(expected);
+    }
+  }
+}
+END_TEST
+
 // <=== TEST CASES: s21_to_upper ===>
 
-START_TEST(tc068_to_upper) {
+START_TEST(tc071_to_upper) {
   char str1[] = ". Hello /world/!!! ";
   char *ch1 = s21_to_upper(str1);
   ck_assert_pstr_eq(ch1, ". HELLO /WORLD/!!! ");
@@ -633,7 +655,7 @@ START_TEST(tc068_to_upper) {
 }
 END_TEST
 
-START_TEST(tc069_to_upper) {
+START_TEST(tc072_to_upper) {
   char str1[] = "";
   char *ch1 = s21_to_upper(str1);
   ck_assert_pstr_eq(ch1, s21_NULL);
@@ -643,7 +665,7 @@ END_TEST
 
 // <=== TEST CASES: s21_to_lower ===>
 
-START_TEST(tc070_to_lower) {
+START_TEST(tc073_to_lower) {
   char str1[] = ". HELLO /WORLD/!!! ";
   char *ch1 = s21_to_lower(str1);
   ck_assert_pstr_eq(ch1, ". hello /world/!!! ");
@@ -651,7 +673,7 @@ START_TEST(tc070_to_lower) {
 }
 END_TEST
 
-START_TEST(tc071_to_lower) {
+START_TEST(tc074_to_lower) {
   char str1[] = "";
   char *ch1 = s21_to_lower(str1);
   ck_assert_pstr_eq(ch1, s21_NULL);
@@ -661,7 +683,7 @@ END_TEST
 
 // <=== TEST CASES: s21_insert ===>
 
-START_TEST(tc072_insert) {
+START_TEST(tc075_insert) {
   char str1[] = ". HELLO /WORLD/!!! ";
   char str2[] = "space";
   s21_size_t i = 8;
@@ -671,7 +693,7 @@ START_TEST(tc072_insert) {
 }
 END_TEST
 
-START_TEST(tc073_insert) {
+START_TEST(tc076_insert) {
   char str1[] = "qwe ";
   char str2[] = "space";
   s21_size_t i = 3;
@@ -681,7 +703,7 @@ START_TEST(tc073_insert) {
 }
 END_TEST
 
-START_TEST(tc074_insert) {
+START_TEST(tc077_insert) {
   char str1[] = "";
   char str2[] = "space";
   s21_size_t i = 3;
@@ -693,7 +715,7 @@ END_TEST
 
 // <=== TEST CASES: s21_trim ===>
 
-START_TEST(tc075_trim) {
+START_TEST(tc078_trim) {
   char src1[] = "     &#@\n\n\t Hello, World! *&#@ \n\t   ";
   char trim_chars[] = " &#@\n\t";
   char *psrc = s21_trim(src1, trim_chars);
@@ -702,7 +724,7 @@ START_TEST(tc075_trim) {
 }
 END_TEST
 
-START_TEST(tc076_trim) {
+START_TEST(tc079_trim) {
   char str1[] = ". /!!! ";
   char str2[] = ". /!";
   char *ch1 = s21_trim(str1, str2);
@@ -711,7 +733,7 @@ START_TEST(tc076_trim) {
 }
 END_TEST
 
-START_TEST(tc077_trim) {
+START_TEST(tc080_trim) {
   char str1[] = ". HELLO /WORLD/!!! ";
   char str2[] = "";
   char *ch1 = s21_trim(str1, str2);
@@ -720,7 +742,7 @@ START_TEST(tc077_trim) {
 }
 END_TEST
 
-START_TEST(tc078_trim) {
+START_TEST(tc081_trim) {
   char str[] = "        abc         ";
   char *trim_ch = s21_NULL;
   char *got = s21_trim(str, trim_ch);
@@ -976,6 +998,7 @@ Suite *ts_s21_strtok() {
   tcase_add_test(test_case, tc067_strtok);
   tcase_add_test(test_case, tc068_strtok);
   tcase_add_test(test_case, tc069_strtok);
+  tcase_add_test(test_case, tc070_strtok);
   suite_add_tcase(suite, test_case);
 
   return suite;
@@ -985,8 +1008,8 @@ Suite *ts_s21_to_upper() {
   Suite *suite = suite_create("ts_s21_to_upper");
   TCase *test_case = tcase_create("tc_s21_to_upper");
 
-  tcase_add_test(test_case, tc068_to_upper);
-  tcase_add_test(test_case, tc069_to_upper);
+  tcase_add_test(test_case, tc071_to_upper);
+  tcase_add_test(test_case, tc072_to_upper);
   suite_add_tcase(suite, test_case);
 
   return suite;
@@ -996,8 +1019,8 @@ Suite *ts_s21_to_lower() {
   Suite *suite = suite_create("ts_s21_to_lower");
   TCase *test_case = tcase_create("tc_s21_to_lower");
 
-  tcase_add_test(test_case, tc070_to_lower);
-  tcase_add_test(test_case, tc071_to_lower);
+  tcase_add_test(test_case, tc073_to_lower);
+  tcase_add_test(test_case, tc074_to_lower);
   suite_add_tcase(suite, test_case);
 
   return suite;
@@ -1007,9 +1030,9 @@ Suite *ts_s21_insert() {
   Suite *suite = suite_create("ts_s21_insert");
   TCase *test_case = tcase_create("tc_s21_insert");
 
-  tcase_add_test(test_case, tc072_insert);
-  tcase_add_test(test_case, tc073_insert);
-  tcase_add_test(test_case, tc074_insert);
+  tcase_add_test(test_case, tc075_insert);
+  tcase_add_test(test_case, tc076_insert);
+  tcase_add_test(test_case, tc077_insert);
   suite_add_tcase(suite, test_case);
 
   return suite;
@@ -1019,10 +1042,10 @@ Suite *ts_s21_trim() {
   Suite *suite = suite_create("ts_s21_trim");
   TCase *test_case = tcase_create("tc_s21_trim");
 
-  tcase_add_test(test_case, tc075_trim);
-  tcase_add_test(test_case, tc076_trim);
-  tcase_add_test(test_case, tc077_trim);
   tcase_add_test(test_case, tc078_trim);
+  tcase_add_test(test_case, tc079_trim);
+  tcase_add_test(test_case, tc080_trim);
+  tcase_add_test(test_case, tc081_trim);
   suite_add_tcase(suite, test_case);
 
   return suite;

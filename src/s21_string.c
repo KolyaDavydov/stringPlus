@@ -8,12 +8,14 @@
 **/
 void *s21_memchr(const void *str, int c, s21_size_t n) {
   unsigned char *res = s21_NULL;
-  const unsigned char *ptr = str;
-  for (int i = 0; i < (int)n; i++) {
-    if (*ptr == (unsigned char)c) {
-      res = (void *)ptr;
-    } else {
-      ptr++;
+  if (str != s21_NULL) {
+    const unsigned char *ptr = str;
+    for (int i = 0; i < (int)n; i++) {
+      if (*ptr == (unsigned char)c) {
+        res = (void *)ptr;
+      } else {
+        ptr++;
+      }
     }
   }
   return res;
@@ -348,22 +350,29 @@ char *s21_strstr(const char *haystack, const char *needle) {
 
     Implementes by: Aqua Nelida
 **/
-
 char *s21_strtok(char *str, const char *delim) {
   static char *arr = s21_NULL;
+  int ch = 0;
 
   if (str == s21_NULL) {
-    if (arr != s21_NULL) str = arr;
+    if (arr != s21_NULL) {
+      str = arr;
+      ch = *str;
+    }
   } else {
     arr = str;
+    ch = *str;
   }
 
   if (arr != s21_NULL && *str != '\0') {
-    str = arr + s21_strspn(str, delim);  // указатель на строку
+    while (s21_strchr(delim, ch) != s21_NULL &&
+           *str != '\0') {  // указатель на символ
+      ch = *++str;
+    }
     arr = str + s21_strcspn(str, delim);  // указатель на разделитель
     if (*arr != '\0') {
       *arr = '\0';
-      arr++;  // тут смещаем указатель на 1 и разделяем;
+      ++arr;  // тут смещаем указатель на 1 и разделяем;
     }
     if (str == arr) {
       str = s21_NULL;
@@ -371,7 +380,6 @@ char *s21_strtok(char *str, const char *delim) {
   } else {
     str = s21_NULL;
   }
-
   return str;
 }
 

@@ -4,12 +4,17 @@
 
 // <=== TEST CASES: s21_memchr ===>
 
-void tc_s21_memchr() {
+void tc_s21_memchr1() {
   char *str1 = "Gd morning";
   int i = 111;
   s21_memchr(str1, i, s21_strlen(str1));
-  s21_memchr(str1, 75, 1);
-  s21_memchr(0, 0, 0);
+}
+
+void tc_s21_memchr2() {
+  char *str1 = s21_NULL;
+  int i = 111;
+  char *a = s21_memchr(str1, i, s21_strlen(str1));
+  printf("%c", *a);
 }
 
 // <=== TEST CASES: s21_memcmp ===>
@@ -229,29 +234,30 @@ void tc_s21_trim() {
 }
 
 int main(void) {
-  tc_s21_memchr();
-  tc_s21_memcmp();
-  tc_s21_memcpy();
-  tc_s21_memmove();
-  tc_s21_memset();
-  tc_s21_strcat();
-  tc_s21_strncat();
-  tc_s21_strchr();
-  tc_s21_strcmp();
-  tc_s21_strncmp();
-  tc_s21_strcpy();
-  tc_s21_strncpy();
-  tc_s21_strcspn();
-  tc_s21_strerror();
-  tc_s21_strlen();
-  tc_s21_strpbrk();
-  tc_s21_strrchr();
-  tc_s21_strspn();
-  tc_s21_strstr();
-  tc_s21_strtok();
-  tc_s21_upper();
-  tc_s21_lower();
-  tc_s21_insert();
-  tc_s21_trim();
+  tc_s21_memchr1();
+  tc_s21_memchr2();
+  // tc_s21_memcmp();
+  // tc_s21_memcpy();
+  // tc_s21_memmove();
+  // tc_s21_memset();
+  // tc_s21_strcat();
+  // tc_s21_strncat();
+  // tc_s21_strchr();
+  // tc_s21_strcmp();
+  // tc_s21_strncmp();
+  // tc_s21_strcpy();
+  // tc_s21_strncpy();
+  // tc_s21_strcspn();
+  // tc_s21_strerror();
+  // tc_s21_strlen();
+  // tc_s21_strpbrk();
+  // tc_s21_strrchr();
+  // tc_s21_strspn();
+  // tc_s21_strstr();
+  // tc_s21_strtok();
+  // tc_s21_upper();
+  // tc_s21_lower();
+  // tc_s21_insert();
+  // tc_s21_trim();
   return 0;
 }
