@@ -22,10 +22,6 @@ s21_string.a: $(LIBOBJECTS)
 .c.o:
 	$(CC) -c $(CFLAGS) $< -o $@
 
-test_telega: s21_string.a
-	gcc -std=c11 $(CHECKFLAGS) sscanf_tests.c s21_string.a -o unit-test
-	./unit-test
-
 test: s21_string.a
 	$(CC) $(CFLAGS) $(CHECKFLAGS) $(LDFLAGS) s21_string.a tests.c -o run
 	./run
