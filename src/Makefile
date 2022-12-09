@@ -4,7 +4,6 @@ LDFLAGS=
 PROFILE_FLAGS=-fprofile-arcs -ftest-coverage
 LIBSOURCES=s21_string.c s21_sscanf.c s21_sprintf.c
 LIBOBJECTS=$(LIBSOURCES:.c=.o)
-GCOV_SOURCES=s21_string.c s21_sscanf.c s21_sprintf.c tests.c
 OS:=$(shell uname)
 
 ifeq ($(OS), Linux)
@@ -32,14 +31,14 @@ test: s21_string.a
 	./run
 
 gcov_report:
-	gcc --coverage -lcheck $(GCOV_SOURCES) -o ./gcov
+	gcc --coverage -lcheck $(LIBSOURCES) tests.c -o ./gcov
 	./gcov
 	lcov -t "./gcov" -o report.info --no-external -c -d .
 	genhtml -o report report.info
 	open ./report/index.html
 
 valgrind:
-	$(CC) $(CFLAGS) $(LDFLAGS) s21_string.c s21_sscanf.c tests_valgrind.c -o vtests_run
+	$(CC) $(CFLAGS) $(LDFLAGS) $(LIBSOURCES) tests_valgrind.c -o vtests_run
 	sh valgrind.sh ./vtests_run
 
 docker_test:
