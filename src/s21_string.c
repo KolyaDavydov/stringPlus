@@ -8,12 +8,14 @@
 **/
 void *s21_memchr(const void *str, int c, s21_size_t n) {
   unsigned char *res = s21_NULL;
-  const unsigned char *ptr = str;
-  for (int i = 0; i < (int)n; i++) {
-    if (*ptr == (unsigned char)c) {
-      res = (void *)ptr;
-    } else {
-      ptr++;
+  if (str != s21_NULL) {
+    const unsigned char *ptr = str;
+    for (int i = 0; i < (int)n; i++) {
+      if (*ptr == (unsigned char)c) {
+        res = (void *)ptr;
+      } else {
+        ptr++;
+      }
     }
   }
   return res;
@@ -25,11 +27,14 @@ void *s21_memchr(const void *str, int c, s21_size_t n) {
     Implemented by: Tania Kiara
 **/
 int s21_memcmp(const void *str1, const void *str2, s21_size_t n) {
-  int result = 0;
-  for (s21_size_t i = 0; i < n && !result; i++) {
-    unsigned char ch1 = *(unsigned char *)(str1 + i);
-    unsigned char ch2 = *(unsigned char *)(str2 + i);
-    if (ch1 != ch2) result = ch1 - ch2;
+  int result = -1;
+  if (str1 != s21_NULL && str2 != s21_NULL) {
+    result = 0;
+    for (s21_size_t i = 0; i < n && !result; i++) {
+      unsigned char ch1 = *(unsigned char *)(str1 + i);
+      unsigned char ch2 = *(unsigned char *)(str2 + i);
+      if (ch1 != ch2) result = ch1 - ch2;
+    }
   }
   return result;
 }
@@ -41,7 +46,8 @@ int s21_memcmp(const void *str1, const void *str2, s21_size_t n) {
 **/
 void *s21_memcpy(void *dest, const void *src, s21_size_t n) {
   unsigned char *to = dest;
-  for (s21_size_t i = 0; i < n; i++) to[i] = ((unsigned char *)src)[i];
+  if (dest != s21_NULL && src != s21_NULL)
+    for (s21_size_t i = 0; i < n; i++) to[i] = ((unsigned char *)src)[i];
   return to;
 }
 
@@ -51,21 +57,22 @@ void *s21_memcpy(void *dest, const void *src, s21_size_t n) {
     Implemented by: Tania Kiara
 **/
 void *s21_memmove(void *dest, const void *src, s21_size_t n) {
-  unsigned char *to = dest;
-  void *result = to;
-
-  if (src != dest && n != 0) {
-    if (dest > src && dest - src < (int)n) {
-      for (int i = n - 1; i >= 0; i--) to[i] = ((unsigned char *)src)[i];
-      result = dest;
-    } else if (src > dest && src - dest < (int)n) {
-      for (s21_size_t i = 0; i < n; i++) to[i] = ((unsigned char *)src)[i];
-      result = dest;
-    } else {
-      s21_memcpy(dest, src, n);
+  void *result = s21_NULL;
+  if (dest != s21_NULL && src != s21_NULL) {
+    unsigned char *to = dest;
+    result = to;
+    if (src != dest && n != 0) {
+      if (dest > src && dest - src < (int)n) {
+        for (int i = n - 1; i >= 0; i--) to[i] = ((unsigned char *)src)[i];
+        result = dest;
+      } else if (src > dest && src - dest < (int)n) {
+        for (s21_size_t i = 0; i < n; i++) to[i] = ((unsigned char *)src)[i];
+        result = dest;
+      } else {
+        s21_memcpy(dest, src, n);
+      }
     }
   }
-
   return result;
 }
 
@@ -76,8 +83,11 @@ void *s21_memmove(void *dest, const void *src, s21_size_t n) {
     Implemented by: Almeta Terry
 **/
 void *s21_memset(void *str, int c, s21_size_t n) {
-  char *ptr = str;
-  for (s21_size_t i = 0; i < n; i++) *(ptr + i) = c;
+  char *ptr = s21_NULL;
+  if (str != s21_NULL) {
+    ptr = str;
+    for (s21_size_t i = 0; i < n; i++) *(ptr + i) = c;
+  }
   return ptr;
 }
 
@@ -88,10 +98,13 @@ void *s21_memset(void *str, int c, s21_size_t n) {
     Implemented by: Almeta Terry
 **/
 char *s21_strcat(char *dest, const char *src) {
-  char *tmp = dest;
-  while (*dest != '\0') dest++;
-  while (*src != '\0') *dest++ = *src++;
-  *dest = '\0';
+  char *tmp = s21_NULL;
+  if (dest != s21_NULL && src != s21_NULL) {
+    tmp = dest;
+    while (*dest != '\0') dest++;
+    while (*src != '\0') *dest++ = *src++;
+    *dest = '\0';
+  }
   return tmp;
 }
 
@@ -103,9 +116,12 @@ char *s21_strcat(char *dest, const char *src) {
 **/
 
 char *s21_strncat(char *dest, const char *src, s21_size_t n) {
-  char *tmp = dest;
-  while (*dest != '\0') dest++;
-  while (n-- > 0) *dest++ = *src++;
+  char *tmp = s21_NULL;
+  if (dest != s21_NULL && src != s21_NULL) {
+    tmp = dest;
+    while (*dest != '\0') dest++;
+    while (n-- > 0) *dest++ = *src++;
+  }
   return tmp;
 }
 
@@ -118,13 +134,15 @@ char *s21_strncat(char *dest, const char *src, s21_size_t n) {
 
 char *s21_strchr(const char *str, int c) {
   char *ptr = s21_NULL;
-  while (1) {
-    if (*str == (char)c) {
-      ptr = (char *)str;
-      break;
+  if (str != s21_NULL) {
+    while (1) {
+      if (*str == (char)c) {
+        ptr = (char *)str;
+        break;
+      }
+      if (*str == '\0') break;
+      str++;
     }
-    if (*str == '\0') break;
-    str++;
   }
   return ptr;
 }
@@ -136,9 +154,16 @@ char *s21_strchr(const char *str, int c) {
 **/
 
 int s21_strcmp(const char *str1, const char *str2) {
-  while (*str1)
-    if (*str1++ != *str2++) break;
-  return *str1 - *str2;
+  int res = -1;
+  if (str1 != s21_NULL && str2 != s21_NULL) {
+    res = 0;
+    while (*str1)
+      if (*str1++ != *str2++) {
+        res = *str1 - *str2;
+        break;
+      }
+  }
+  return res;
 }
 
 /**
@@ -147,9 +172,12 @@ int s21_strcmp(const char *str1, const char *str2) {
     Implementes by: Almeta Terry
 **/
 int s21_strncmp(const char *str1, const char *str2, s21_size_t n) {
-  int result = 0;
-  for (s21_size_t i = 0; i < n && result == 0; i++)
-    result = *(str1 + i) - *(str2 + i);
+  int result = -1;
+  if (str1 != s21_NULL && str2 != s21_NULL) {
+    result = 0;
+    for (s21_size_t i = 0; i < n && result == 0; i++)
+      result = *(str1 + i) - *(str2 + i);
+  }
   return result;
 }
 
@@ -159,9 +187,12 @@ int s21_strncmp(const char *str1, const char *str2, s21_size_t n) {
     Implementes by: Almeta Terry
 **/
 char *s21_strcpy(char *dest, const char *src) {
-  char *tmp = dest;
-  while (*src != '\0') *dest++ = *src++;
-  *dest = '\0';
+  char *tmp = s21_NULL;
+  if (dest != s21_NULL && src != s21_NULL) {
+    tmp = dest;
+    while (*src != '\0') *dest++ = *src++;
+    *dest = '\0';
+  }
   return tmp;
 }
 
@@ -171,14 +202,17 @@ char *s21_strcpy(char *dest, const char *src) {
     Implementes by: Almeta Terry
 **/
 char *s21_strncpy(char *dest, const char *src, s21_size_t n) {
-  char *tmp = dest;
-  s21_size_t tmp_n = 0;
-  while (tmp_n < n) {
-    if (*src != '\0')
-      *dest++ = *src++;
-    else
-      *dest++ = '\0';
-    tmp_n++;
+  char *tmp = s21_NULL;
+  if (dest != s21_NULL && src != s21_NULL) {
+    tmp = dest;
+    s21_size_t tmp_n = 0;
+    while (tmp_n < n) {
+      if (*src != '\0')
+        *dest++ = *src++;
+      else
+        *dest++ = '\0';
+      tmp_n++;
+    }
   }
   return tmp;
 }
@@ -191,7 +225,9 @@ char *s21_strncpy(char *dest, const char *src, s21_size_t n) {
 **/
 s21_size_t s21_strcspn(const char *str1, const char *str2) {
   s21_size_t counter = 0;
-  while (*str1 != '\0' && !s21_strchr(str2, *str1++)) counter++;
+  if (str1 != s21_NULL && str2 != s21_NULL)
+    while (*str1 != '\0' && !s21_strchr(str2, *str1++)) counter++;
+
   return counter;
 }
 
@@ -272,7 +308,8 @@ char *int_to_str(char *tmp_num, int errnum) {
 **/
 s21_size_t s21_strlen(const char *str) {
   s21_size_t length = 0;
-  while (*(str++) != 0) length++;
+  if (str != s21_NULL)
+    while (*(str++) != 0) length++;
   return length;
 }
 
@@ -285,14 +322,16 @@ character specified in str2.
 char *s21_strpbrk(const char *str1, const char *str2) {
   char *ptr = s21_NULL;
   int flag = 0;
-  while (*str1 != '\0' && flag == 0) {
-    for (s21_size_t i = 0; i < s21_strlen(str2); i++) {
-      if (*str1 == str2[i]) {
-        flag = 1;
-        ptr = (char *)str1;
+  if (str1 != s21_NULL && str2 != s21_NULL) {
+    while (*str1 != '\0' && flag == 0) {
+      for (s21_size_t i = 0; i < s21_strlen(str2); i++) {
+        if (*str1 == str2[i]) {
+          flag = 1;
+          ptr = (char *)str1;
+        }
       }
+      str1++;
     }
-    str1++;
   }
   return ptr;
 }
@@ -305,8 +344,9 @@ char *s21_strpbrk(const char *str1, const char *str2) {
 **/
 char *s21_strrchr(const char *str, int c) {
   char *ptr = s21_NULL;
-  for (s21_size_t i = 0; i < s21_strlen(str) + 1; i++) {
-    if (str[i] == (unsigned char)c) ptr = (char *)&str[i];
+  if (str != s21_NULL) {
+    for (s21_size_t i = 0; i < s21_strlen(str) + 1; i++)
+      if (str[i] == (unsigned char)c) ptr = (char *)&str[i];
   }
   return ptr;
 }
@@ -319,7 +359,8 @@ char *s21_strrchr(const char *str, int c) {
 **/
 s21_size_t s21_strspn(const char *str1, const char *str2) {
   s21_size_t counter = 0;
-  while (*str1 != '\0' && s21_strchr(str2, *str1++)) counter++;
+  if (str1 != s21_NULL && str2 != s21_NULL)
+    while (*str1 != '\0' && s21_strchr(str2, *str1++)) counter++;
   return counter;
 }
 
@@ -356,47 +397,182 @@ char *s21_strstr(const char *haystack, const char *needle) {
 **/
 char *s21_strtok(char *str, const char *delim) {
   static char *arr = s21_NULL;
-  int flag = 0;
-  int check = 0;
   int ch = 0;
 
-  if (!str) {
-    str = arr;
-    if (arr) {
-      flag = 1;
+  if (str == s21_NULL) {
+    if (arr != s21_NULL) {
+      str = arr;
       ch = *str;
-    } else {
-      arr = s21_NULL;
-      flag = 0;
     }
   } else {
-    if (*str == '\0') str = s21_NULL;
-    if (*delim == '\0') check = 1;
-    if (!str || *delim == '\0') {
-      flag = 0;
-    } else {
-      flag = 1;
-      ch = *str;
-      if (s21_strpbrk(str, delim) == s21_NULL) flag = 0;
-    }
+    arr = str;
+    ch = *str;
   }
 
-  while (s21_strchr(delim, ch) && flag != 0) {
-    if ((ch = *++str) == '\0') {
-      flag = 0;
+  if (arr != s21_NULL && *str != '\0' && delim != NULL) {
+    while (s21_strchr(delim, ch) != s21_NULL &&
+           *str != '\0') {  // указатель на символ
+      ch = *++str;
     }
-  }
-
-  if (flag != 0) {
-    arr = str + s21_strcspn(str, delim);
+    arr = str + s21_strcspn(str, delim);  // указатель на разделитель
     if (*arr != '\0') {
       *arr = '\0';
+      ++arr;  // тут смещаем указатель на 1 и разделяем;
     }
-  } else if ((check != 1 && ch == 0) || *str == '\0') {
-    str = 0;
+    if (str == arr) {
+      str = s21_NULL;
+    }
+  } else {
+    str = s21_NULL;
+  }
+  return str;
+}
+
+/**
+    23. Returns a copy of string (str) converted to uppercase. In case of any
+    error, return NULL
+
+    Implementes by: Aqua Nelida
+**/
+
+void *s21_to_upper(const char *str) {
+  static char *arr = s21_NULL;
+  char *buff = s21_NULL;
+  if (str != s21_NULL && *str != '\0') {
+    buff = (char *)calloc((s21_strlen(str) + 1), sizeof(char));
+    if (buff == NULL) {
+      arr = s21_NULL;
+    } else {
+      int i = 0;
+      for (; str[i] != '\0'; i++) {
+        buff[i] = str[i];
+        if (buff[i] >= 'a' && buff[i] <= 'z') {
+          buff[i] -= 32;
+        }
+      }
+      arr = buff;
+    }
+  } else {
+    arr = s21_NULL;
+  }
+  return arr;
+}
+
+/**
+    24. Returns a copy of string (str) converted to lowercase. In case of any
+    error, return NULL
+
+    Implementes by: Aqua Nelida
+**/
+
+void *s21_to_lower(const char *str) {
+  static char *arr = s21_NULL;
+  char *buff = s21_NULL;
+  if (str != s21_NULL && *str != '\0') {
+    buff = (char *)calloc((s21_strlen(str) + 1), sizeof(char));
+    if (buff == s21_NULL) {
+      arr = s21_NULL;
+    } else {
+      int i = 0;
+      for (; str[i] != '\0'; i++) {
+        buff[i] = str[i];
+        if (buff[i] >= 'A' && buff[i] <= 'Z') {
+          buff[i] += 32;
+        }
+      }
+      arr = buff;
+    }
+  } else {
+    arr = s21_NULL;
   }
 
-  return str;
+  return arr;
+}
+
+/**
+    25. Returns a new string in which a specified string (str) is inserted at a
+    specified index position (start_index) in the given string (src). In case of
+    any error, return NULL
+
+    Implementes by: Aqua Nelida
+**/
+
+void *s21_insert(const char *src, const char *str, s21_size_t start_index) {
+  static char *arr = s21_NULL;
+  char *buff = s21_NULL;
+  s21_size_t size = s21_strlen(src);
+  if (!str || !src || *str == '\0' || *src == '\0' || size < start_index)
+    arr = s21_NULL;
+  else {
+    s21_size_t k = 0;
+    buff =
+        (char *)calloc((s21_strlen(src) + s21_strlen(str) + 1), sizeof(char));
+    if (buff == s21_NULL) {
+      arr = s21_NULL;
+    } else {
+      for (s21_size_t i = 0; src[i] != '\0' || str[k] != '\0'; i++) {
+        if (i < start_index) {
+          buff[i] = src[i];
+        }
+        if (i == start_index) {
+          k = i;
+          for (s21_size_t j = 0; str[j] != '\0'; j++) {
+            buff[k] = str[j];
+            k++;
+          }
+        }
+        if (i >= start_index) {
+          buff[k] = src[i];
+          k++;
+        }
+      }
+      arr = buff;
+    }
+  }
+
+  return arr;
+}
+
+/**
+    26. Returns a new string in which all leading and trailing occurrences of
+a set of specified characters (trim_chars) from the given string (src) are
+    removed. In case of any error, return NULL
+
+    Implementes by: Aqua Nelida
+**/
+
+void *s21_trim(const char *src, const char *trim_chars) {
+  int i = 0;
+  int j = 0;
+  int ch = *src;
+  int flag = 0;
+  static char *arr = s21_NULL;
+  char *buff = s21_NULL;
+  if (!src || !trim_chars || *src == '\0' || *trim_chars == '\0')
+    arr = s21_NULL;
+  else {
+    for (; s21_strchr(trim_chars, ch) && *src != '\0'; i++) ch = *++src;
+    buff = (char *)calloc((s21_strlen(src) + 1), sizeof(char));
+    if (buff == s21_NULL) {
+      arr = s21_NULL;
+    } else {
+      for (; *src != '\0'; j++) buff[j] = *src++;
+      while (j != 0 && flag == 0) {
+        ch = buff[j];
+        if (s21_strchr(trim_chars, ch) && buff[j] != '\0')
+          buff[j] = '\0';
+        else if (!s21_strchr(trim_chars, ch))
+          flag = 1;
+        j--;
+      }
+      if (*buff == '\0' || buff == s21_NULL)
+        arr = s21_NULL;
+      else
+        arr = buff;
+    }
+  }
+
+  return arr;
 }
 
 /**

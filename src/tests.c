@@ -529,16 +529,22 @@ START_TEST(tc064_strtok) {
 END_TEST
 
 START_TEST(tc065_strtok) {
-  char str1[] = ". Hello /world/!!! ";
-  char str2[] = ". Hello /world/!!! ";
-  char del[] = ". ";
-
-  char *ch1 = strtok(str1, del);
-  char *ch2 = s21_strtok(str2, del);
-  while (ch1 != s21_NULL) {
-    ck_assert_pstr_eq(ch1, ch2);
-    ch1 = strtok(s21_NULL, del);
-    ch2 = s21_strtok(s21_NULL, del);
+  char str1[] = "++Aboba++Floppa_! Kotya===!Shleppa+++ A +";
+  char str2[] = "++Aboba++Floppa_! Kotya===!Shleppa+++ A +";
+  const char delims[] = "+_! =";
+  char *got = s21_strtok(str1, delims);
+  char *expected = strtok(str2, delims);
+  ck_assert_uint_eq(s21_strlen(got), s21_strlen(expected));
+  ck_assert_str_eq(got, expected);
+  while (got && expected) {
+    got = s21_strtok(s21_NULL, delims);
+    expected = strtok(s21_NULL, delims);
+    if (got || expected) {
+      ck_assert_str_eq(got, expected);
+    } else {
+      ck_assert_ptr_null(got);
+      ck_assert_ptr_null(expected);
+    }
   }
 }
 END_TEST
@@ -563,7 +569,7 @@ END_TEST
 START_TEST(tc067_strtok) {
   char str1[] = ". Hello /world/!!! ";
   char str2[] = ". Hello /world/!!! ";
-  char del[] = ". ";
+  char del[] = ". !";
 
   char *ch1 = strtok(str1, del);
   char *ch2 = s21_strtok(str2, del);
@@ -575,6 +581,176 @@ START_TEST(tc067_strtok) {
   }
   ck_assert_pstr_eq(ch1, ch2);
 }
+
+START_TEST(tc068_strtok) {
+  char str1[] = "     Aboba__+ Flo!ppa_   Roba+";
+  char str2[] = "     Aboba__+ Flo!ppa_   Roba+";
+  const char delims[] = "+_! =";
+  char *got = s21_strtok(str1, delims);
+  char *expected = strtok(str2, delims);
+  ck_assert_uint_eq(s21_strlen(got), s21_strlen(expected));
+  ck_assert_str_eq(got, expected);
+  while (got || expected) {
+    got = s21_strtok(s21_NULL, delims);
+    expected = strtok(s21_NULL, delims);
+    if (got || expected) {
+      ck_assert_str_eq(got, expected);
+    } else {
+      ck_assert_ptr_null(got);
+      ck_assert_ptr_null(expected);
+    }
+  }
+}
+END_TEST
+
+START_TEST(tc069_strtok) {
+  char str1[] = "!Stepa__ !M!ish a____Anton+An!!!drey";
+  char str2[] = "!Stepa__ !M!ish a____Anton+An!!!drey";
+  const char delims[] = "+_! =";
+  char *got = s21_strtok(str1, delims);
+  char *expected = strtok(str2, delims);
+  ck_assert_uint_eq(s21_strlen(got), s21_strlen(expected));
+  ck_assert_str_eq(got, expected);
+  while (got || expected) {
+    got = s21_strtok(s21_NULL, delims);
+    expected = strtok(s21_NULL, delims);
+    if (got || expected) {
+      ck_assert_str_eq(got, expected);
+    } else {
+      ck_assert_ptr_null(got);
+      ck_assert_ptr_null(expected);
+    }
+  }
+}
+END_TEST
+
+START_TEST(tc070_strtok) {
+  char str1[] = "!       A!B!C!D!E!!F!!G";
+  char str2[] = "!       A!B!C!D!E!!F!!G";
+  const char delims[] = "+_! =";
+  char *got = s21_strtok(str1, delims);
+  char *expected = strtok(str2, delims);
+  ck_assert_uint_eq(s21_strlen(got), s21_strlen(expected));
+  ck_assert_str_eq(got, expected);
+  while (got || expected) {
+    got = s21_strtok(s21_NULL, delims);
+    expected = strtok(s21_NULL, delims);
+    if (got || expected) {
+      ck_assert_str_eq(got, expected);
+      ck_assert_uint_eq(s21_strlen(got), s21_strlen(expected));
+    } else {
+      ck_assert_ptr_null(got);
+      ck_assert_ptr_null(expected);
+    }
+  }
+}
+END_TEST
+
+// <=== TEST CASES: s21_to_upper ===>
+
+START_TEST(tc071_to_upper) {
+  char str1[] = ". Hello /world/!!! ";
+  char *ch1 = s21_to_upper(str1);
+  ck_assert_pstr_eq(ch1, ". HELLO /WORLD/!!! ");
+  if (ch1) free(ch1);
+}
+END_TEST
+
+START_TEST(tc072_to_upper) {
+  char str1[] = "";
+  char *ch1 = s21_to_upper(str1);
+  ck_assert_pstr_eq(ch1, s21_NULL);
+  if (ch1) free(ch1);
+}
+END_TEST
+
+// <=== TEST CASES: s21_to_lower ===>
+
+START_TEST(tc073_to_lower) {
+  char str1[] = ". HELLO /WORLD/!!! ";
+  char *ch1 = s21_to_lower(str1);
+  ck_assert_pstr_eq(ch1, ". hello /world/!!! ");
+  if (ch1) free(ch1);
+}
+END_TEST
+
+START_TEST(tc074_to_lower) {
+  char str1[] = "";
+  char *ch1 = s21_to_lower(str1);
+  ck_assert_pstr_eq(ch1, s21_NULL);
+  if (ch1) free(ch1);
+}
+END_TEST
+
+// <=== TEST CASES: s21_insert ===>
+
+START_TEST(tc075_insert) {
+  char str1[] = ". HELLO /WORLD/!!! ";
+  char str2[] = "space";
+  s21_size_t i = 8;
+  char *ch1 = s21_insert(str1, str2, i);
+  ck_assert_pstr_eq(ch1, ". HELLO space/WORLD/!!! ");
+  if (ch1) free(ch1);
+}
+END_TEST
+
+START_TEST(tc076_insert) {
+  char str1[] = "qwe ";
+  char str2[] = "space";
+  s21_size_t i = 3;
+  char *ch1 = s21_insert(str1, str2, i);
+  ck_assert_pstr_eq(ch1, "qwespace ");
+  if (ch1) free(ch1);
+}
+END_TEST
+
+START_TEST(tc077_insert) {
+  char str1[] = "";
+  char str2[] = "space";
+  s21_size_t i = 3;
+  char *ch1 = s21_insert(str1, str2, i);
+  ck_assert_pstr_eq(ch1, s21_NULL);
+  if (ch1) free(ch1);
+}
+END_TEST
+
+// <=== TEST CASES: s21_trim ===>
+
+START_TEST(tc078_trim) {
+  char src1[] = "     &#@\n\n\t Hello, World! *&#@ \n\t   ";
+  char trim_chars[] = " &#@\n\t";
+  char *psrc = s21_trim(src1, trim_chars);
+  ck_assert_pstr_eq(psrc, "Hello, World! *");
+  free(psrc);
+}
+END_TEST
+
+START_TEST(tc079_trim) {
+  char str1[] = ". /!!! ";
+  char str2[] = ". /!";
+  char *ch1 = s21_trim(str1, str2);
+  ck_assert_pstr_eq(ch1, s21_NULL);
+  if (ch1) free(ch1);
+}
+END_TEST
+
+START_TEST(tc080_trim) {
+  char str1[] = ". HELLO /WORLD/!!! ";
+  char str2[] = "";
+  char *ch1 = s21_trim(str1, str2);
+  ck_assert_pstr_eq(ch1, s21_NULL);
+  if (ch1) free(ch1);
+}
+END_TEST
+
+START_TEST(tc081_trim) {
+  char str[] = "        abc         ";
+  char *trim_ch = s21_NULL;
+  char *got = s21_trim(str, trim_ch);
+  ck_assert_pstr_eq(got, trim_ch);
+  if (got) free(got);
+}
+END_TEST
 
 // <=== TEST CASES: s21_sscanf ===>
 
@@ -4030,6 +4206,9 @@ Suite *ts_s21_strtok() {
   tcase_add_test(test_case, tc065_strtok);
   tcase_add_test(test_case, tc066_strtok);
   tcase_add_test(test_case, tc067_strtok);
+  tcase_add_test(test_case, tc068_strtok);
+  tcase_add_test(test_case, tc069_strtok);
+  tcase_add_test(test_case, tc070_strtok);
   suite_add_tcase(suite, test_case);
 
   return suite;
@@ -4285,7 +4464,53 @@ Suite *ts_s21_sprintf() {
   tcase_add_test(test_case, sprintf_LG);
   tcase_add_test(test_case, sprintf_g_many);
   tcase_add_test(test_case, sprintf_g_zero);
+  suite_add_tcase(suite, test_case);
 
+  return suite;
+}
+
+Suite *ts_s21_to_upper() {
+  Suite *suite = suite_create("ts_s21_to_upper");
+  TCase *test_case = tcase_create("tc_s21_to_upper");
+
+  tcase_add_test(test_case, tc071_to_upper);
+  tcase_add_test(test_case, tc072_to_upper);
+  suite_add_tcase(suite, test_case);
+
+  return suite;
+}
+
+Suite *ts_s21_to_lower() {
+  Suite *suite = suite_create("ts_s21_to_lower");
+  TCase *test_case = tcase_create("tc_s21_to_lower");
+
+  tcase_add_test(test_case, tc073_to_lower);
+  tcase_add_test(test_case, tc074_to_lower);
+  suite_add_tcase(suite, test_case);
+
+  return suite;
+}
+
+Suite *ts_s21_insert() {
+  Suite *suite = suite_create("ts_s21_insert");
+  TCase *test_case = tcase_create("tc_s21_insert");
+
+  tcase_add_test(test_case, tc075_insert);
+  tcase_add_test(test_case, tc076_insert);
+  tcase_add_test(test_case, tc077_insert);
+  suite_add_tcase(suite, test_case);
+
+  return suite;
+}
+
+Suite *ts_s21_trim() {
+  Suite *suite = suite_create("ts_s21_trim");
+  TCase *test_case = tcase_create("tc_s21_trim");
+
+  tcase_add_test(test_case, tc078_trim);
+  tcase_add_test(test_case, tc079_trim);
+  tcase_add_test(test_case, tc080_trim);
+  tcase_add_test(test_case, tc081_trim);
   suite_add_tcase(suite, test_case);
 
   return suite;
@@ -4294,29 +4519,15 @@ Suite *ts_s21_sprintf() {
 int main(void) {
   int failed = 0;
   Suite *test_suites[] = {
-      ts_s21_memchr(),
-      ts_s21_memcmp(),
-      ts_s21_memcpy(),
-      ts_s21_memmove(),
-      ts_s21_memset(),
-      ts_s21_strcat(),
-      ts_s21_strncat(),
-      ts_s21_strchr(),
-      ts_s21_strcmp(),
-      ts_s21_strncmp(),
-      ts_s21_strcpy(),
-      ts_s21_strncpy(),
-      ts_s21_strcspn(),
-      ts_s21_strerror(),
-      ts_s21_strlen(),
-      ts_s21_strpbrk(),
-      ts_s21_strrchr(),
-      ts_s21_strspn(),
-      ts_s21_strstr(),
-      ts_s21_strtok(),
-      ts_s21_sscanf(),
-      ts_s21_sprintf(),
-      NULL,
+      ts_s21_memchr(),  ts_s21_memcmp(),   ts_s21_memcpy(),
+      ts_s21_memmove(), ts_s21_memset(),   ts_s21_strcat(),
+      ts_s21_strncat(), ts_s21_strchr(),   ts_s21_strcmp(),
+      ts_s21_strncmp(), ts_s21_strcpy(),   ts_s21_strncpy(),
+      ts_s21_strcspn(), ts_s21_strerror(), ts_s21_strlen(),
+      ts_s21_strpbrk(), ts_s21_strrchr(),  ts_s21_strspn(),
+      ts_s21_strstr(),  ts_s21_strtok(),   ts_s21_sprintf(),
+      ts_s21_sscanf(),  ts_s21_to_upper(), ts_s21_to_lower(),
+      ts_s21_insert(),  ts_s21_trim(),     NULL,
   };
 
   for (Suite **s = test_suites; *s != NULL; s++) {

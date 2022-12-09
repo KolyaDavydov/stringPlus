@@ -5,6 +5,23 @@
 
 #define BUFF_SIZE 512
 
+// <=== TEST CASES: s21_memchr ===>
+
+void tc_s21_memchr1() {
+  char *str1 = "Gd morning";
+  int i = 111;
+  s21_memchr(str1, i, s21_strlen(str1));
+}
+
+void tc_s21_memchr2() {
+  char *str1 = s21_NULL;
+  int i = 111;
+  char *a = s21_memchr(str1, i, s21_strlen(str1));
+  printf("%c", *a);
+}
+
+// <=== TEST CASES: s21_memcmp ===>
+
 void tc_s21_memcmp() {
   s21_size_t n1 = 12, n2 = 8;
   char *str1 = "Hello there.", *str2 = "Don't underestimate my power!",
@@ -12,7 +29,10 @@ void tc_s21_memcmp() {
 
   s21_memcmp(str1, str1, n1);
   s21_memcmp(str2, str3, n2);
+  s21_memchr(0, 0, 0);
 }
+
+// <=== TEST CASES: s21_memcpy ===>
 
 void tc_s21_memcpy() {
   s21_size_t n1 = 15, n2 = 5, n3 = 7;
@@ -24,6 +44,8 @@ void tc_s21_memcpy() {
   s21_memcpy(s21_buf2, src2, n2);
   s21_memcpy(s21_buf3, s21_buf3 + 16, n3);
 }
+
+// <=== TEST CASES: s21_memmove ===>
 
 void tc_s21_memmove() {
   s21_size_t n1 = 4, n2 = 32, n3 = 10;
@@ -1909,8 +1931,36 @@ void tc_s21_sprintf() {
 int main(void) {
   tc_s21_memcmp();
   tc_s21_memcpy();
+  tc_s21_memchr1();
+  tc_s21_memchr2();
+  tc_s21_memchr3();
+  tc_s21_memcmp1();
+  tc_s21_memcmp2();
+  tc_s21_memcmp3();
+  tc_s21_memcpy1();
   tc_s21_memmove();
+  tc_s21_memset();
+  tc_s21_strcat();
+  tc_s21_strncat();
+  tc_s21_strchr();
+  tc_s21_strcmp();
+  tc_s21_strncmp();
+  tc_s21_strcpy();
+  tc_s21_strncpy();
+  tc_s21_strcspn();
+  tc_s21_strerror();
+  tc_s21_strlen();
+  tc_s21_strpbrk();
+  tc_s21_strrchr();
+  tc_s21_strspn();
+  tc_s21_strstr();
+  tc_s21_strtok();
   tc_s21_sscanf();
   tc_s21_sprintf();
+  tc_s21_upper();
+  tc_s21_lower();
+  tc_s21_insert();
+  tc_s21_trim();
+
   return 0;
 }

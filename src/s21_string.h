@@ -2,6 +2,7 @@
 #define SRC_S21_STRING_H_
 
 #include <stdarg.h>
+#include <stdlib.h>
 
 #include "s21_sprintf.h"
 #include "s21_sscanf.h"
@@ -269,5 +270,31 @@ int s21_sprintf(char *str, const char *format, ...);
     22. Reads formatted input from a string.
 **/
 int s21_sscanf(const char *str, const char *format, ...);
+
+/**
+    23. Returns a copy of string (str) converted to uppercase. In case of any
+    error, return NULL
+**/
+void *s21_to_upper(const char *str);
+
+/**
+    24. Returns a copy of string (str) converted to lowercase. In case of any
+    error, return NULL
+**/
+void *s21_to_lower(const char *str);
+
+/**
+    25. Returns a new string in which a specified string (str) is inserted at a
+    specified index position (start_index) in the given string (src). In case of
+any error, return NULL
+**/
+void *s21_insert(const char *src, const char *str, s21_size_t start_index);
+
+/**
+    26. Returns a new string in which all leading and trailing occurrences of a
+    set of specified characters (trim_chars) from the given string (src) are
+    removed. In case of any error, return NULL
+**/
+void *s21_trim(const char *src, const char *trim_chars);
 
 #endif  // SRC_S21_STRING_H_
