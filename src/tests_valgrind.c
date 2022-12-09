@@ -5,21 +5,6 @@
 
 #define BUFF_SIZE 512
 
-// <=== TEST CASES: s21_memchr ===>
-
-void tc_s21_memchr1() {
-  char *str1 = "Gd morning";
-  int i = 111;
-  s21_memchr(str1, i, s21_strlen(str1));
-}
-
-void tc_s21_memchr2() {
-  char *str1 = s21_NULL;
-  int i = 111;
-  char *a = s21_memchr(str1, i, s21_strlen(str1));
-  printf("%c", *a);
-}
-
 // <=== TEST CASES: s21_memcmp ===>
 
 void tc_s21_memcmp() {
@@ -1926,6 +1911,244 @@ void tc_s21_sprintf() {
 
     makefreeArr(str1, str2, 100);
   }
+}
+void tc_s21_memchr1() {
+  char *str1 = "Gd morning";
+  int i = 111;
+  s21_memchr(str1, i, s21_strlen(str1));
+}
+
+void tc_s21_memchr2() {
+  char *str1 = s21_NULL;
+  int i = 111;
+  s21_memchr(str1, i, 100);
+}
+
+void tc_s21_memchr3() {
+  char *str1 = "Gd morning";
+  int i = 95;
+  s21_memchr(str1, i, 100);
+}
+
+// <=== TEST CASES: s21_memcmp ===>
+
+void tc_s21_memcmp1() {
+  s21_size_t n1 = 12;
+  char *str1 = "Hello there.", *str2 = "Don't underestimate my power!";
+  s21_memcmp(str1, str2, n1);
+}
+
+void tc_s21_memcmp2() {
+  s21_size_t n1 = 12;
+  char *str1 = s21_NULL, *str2 = "Don't underestimate my power!";
+  s21_memcmp(str1, str2, n1);
+}
+
+void tc_s21_memcmp3() {
+  s21_size_t n1 = 120;
+  char *str1 = "Hello there.", *str2 = "Don't underestimate my power!";
+  s21_memcmp(str1, str2, n1);
+}
+
+// <=== TEST CASES: s21_memcpy ===>
+
+void tc_s21_memcpy1() {
+  s21_size_t n1 = 15;
+  char src1[16] = {0}, src2[16] = "Hello there.";
+  s21_memcpy(src2, src1, n1);
+}
+
+void tc_s21_memcpy2() {
+  s21_size_t n1 = 15;
+  char src1[16] = {0};
+
+  s21_memcpy(s21_NULL, src1, n1);
+}
+
+void tc_s21_memcpy3() {
+  s21_size_t n1 = 15;
+  char src1[16] = {0};
+
+  s21_memcpy(s21_NULL, src1, n1);
+}
+
+// <=== TEST CASES: s21_memset ===>
+
+void tc_s21_memset() {
+  int i = 100;
+  char buff[100] = "Spider Man  love a bananas";
+  s21_memset(buff, 75, 101);
+  s21_memset(buff, 101, 100);
+  s21_memset(buff, i, 100);
+}
+
+// <=== TEST CASES: s21_strcat ===>
+
+void tc_s21_strcat() {
+  char buff1[100] = "Spider Man love a bananas";
+  char buff2[100] = " and blue jeans";
+  s21_strcat(buff1, buff2);
+}
+
+// <=== TEST CASES: s21_strncat ===>
+
+void tc_s21_strncat() {
+  s21_size_t i = 10;
+  char buff1[100] = "Spider Man love a bananas";
+  char buff2[100] = " and blue jeans";
+  s21_strncat(buff1, buff2, i);
+  s21_strncat(buff1, "and cats", i);
+}
+
+// <=== TEST CASES: s21_strchr ===>
+
+void tc_s21_strchr() {
+  int i = 10;
+  char buff1[100] = "Spider Man love a bananas";
+  char buff2[100] = " and blue jeans";
+  s21_strchr(buff1, 111);
+  s21_strchr(buff2, i);
+}
+
+// <=== TEST CASES: s21_strcmp ===>
+
+void tc_s21_strcmp() {
+  char buff1[100] = "Spider Man love a bananas";
+  char buff2[100] = " and blue jeans";
+  s21_strcmp(buff1, buff2);
+  s21_strcmp(buff1, "Spider Man love a bananas");
+}
+
+// <=== TEST CASES: s21_strncmp ===>
+
+void tc_s21_strncmp() {
+  size_t a = 5;
+  char buff1[100] = "Spider Man love a bananas";
+  char buff2[100] = " and blue jeans";
+  s21_strncmp(buff1, buff2, a);
+  s21_strncmp(buff1, "Spshider Man love a bananas", a);
+}
+
+// <=== TEST CASES: s21_strcpy ===>
+
+void tc_s21_strcpy() {
+  char buff1[100] = "Spider Man love a bananas";
+  char buff2[100] = " and blue jeans";
+  s21_strcpy(buff1, buff2);
+  s21_strcpy(buff1, "Spshider Man love a bananas");
+}
+
+// <=== TEST CASES: s21_strncpy ===>
+
+void tc_s21_strncpy() {
+  s21_size_t i = 10;
+  char buff1[100] = "Spider Man love a bananas";
+  char buff2[100] = " and blue jeans";
+  s21_strncpy(buff1, buff2, i);
+  s21_strncpy(buff1, "Spshider Man love a bananas", i);
+}
+
+// <=== TEST CASES: s21_strcspn ===>
+
+void tc_s21_strcspn() {
+  char buff1[100] = "Spider Man love a bananas";
+  char buff2[100] = " and blue jeans";
+  s21_strcspn(buff1, buff2);
+  s21_strcspn(buff1, "o");
+}
+
+// <=== TEST CASES: s21_strerror ===>
+
+void tc_s21_strerror() { s21_strerror(0); }
+
+// <=== TEST CASES: s21_strlen ===>
+
+void tc_s21_strlen() {
+  char buff1[100] = "Spider Man love a bananas";
+  char buff2[100] = " and blue jeans";
+  s21_strlen(buff1);
+  s21_strlen(buff2);
+}
+
+// <=== TEST CASES: s21_strpbrk ===>
+
+void tc_s21_strpbrk() {
+  char buff1[100] = "Spider Man love a bananas";
+  char buff2[100] = " and blue jeans";
+  s21_strpbrk(buff1, buff2);
+}
+
+// <=== TEST CASES: s21_strrchr ===>
+
+void tc_s21_strrchr() {
+  int i = 67;
+  char buff1[100] = "Spider Man love a bananas";
+  char buff2[100] = " and blue jeans";
+  s21_strrchr(buff1, i);
+  s21_strrchr(buff2, 97);
+}
+
+// <=== TEST CASES: s21_strspn ===>
+
+void tc_s21_strspn() {
+  char buff1[100] = "Spider Man love a bananasi";
+  char buff2[100] = "Spider Mlova";
+  s21_strspn(buff1, buff2);
+}
+
+// <=== TEST CASES: s21_strstr ===>
+
+void tc_s21_strstr() {
+  char buff1[100] = "Spider Man love a bananasi";
+  char buff2[100] = "er";
+  s21_strstr(buff1, buff2);
+}
+
+// <=== TEST CASES: s21_strtok ===>
+
+void tc_s21_strtok() {
+  char buff1[100] = "Spider Man love a bananasi";
+  char buff2[100] = "era";
+  char *a = s21_strtok(buff1, buff2);
+  while (a != s21_NULL) {
+    a = s21_strtok(s21_NULL, buff2);
+  }
+  a = s21_strtok(s21_NULL, buff2);
+}
+
+// <=== TEST CASES: s21_to_upper ===>
+
+void tc_s21_upper() {
+  char buff[100] = "Spider Man love a bananasi 123 /// 0";
+  char *a = s21_to_upper(buff);
+  if (a) free(a);
+}
+
+// <=== TEST CASES: s21_to_lower ===>
+
+void tc_s21_lower() {
+  char buff[100] = "SPIDER MAN LOVE A BANANASI /// 0";
+  char *a = s21_to_lower(buff);
+  if (a) free(a);
+}
+
+// <=== TEST CASES: s21_insert ===>
+
+void tc_s21_insert() {
+  char buff[100] = "qwe";
+  char arr[100] = "wqe";
+  s21_size_t i = 25;
+  char *a = s21_insert(buff, arr, i);
+  if (a) free(a);
+}
+
+// <=== TEST CASES: s21_trim ===>
+
+void tc_s21_trim() {
+  char str[] = "        abc         ";
+  char *trim_ch = s21_NULL;
+  char *got = s21_trim(str, trim_ch);
+  if (got) free(got);
 }
 
 int main(void) {
