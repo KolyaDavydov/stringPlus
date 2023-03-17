@@ -1,4 +1,4 @@
-# s21_string. Групповой проект (3 человека)
+# stringPlus. Групповой проект (3 человека)
 
 > Проект реализован в группе трех человек: [Я](https://github.com/KolyaDavydov), [Милиньков Никита](https://github.com/Milinkov-N) и [Алеткин Макс](https://github.com/aquaneli)
 
